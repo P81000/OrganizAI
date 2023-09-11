@@ -34,4 +34,14 @@ Join us on this exciting journey to reimagine time management. OrganizAI isn't j
 
 **Version:** 1.0.0
 
+**Colaborators:**
+-  Pedro Masteguin - [Instagram](http://www.instagram.com/pedro_masteguin/) | [LinkedIn](http://linkedin.com/in/pedrohenriquemasteguin)
+-  Erik Galvao
+-  Leonardo Scadelai
+-  Thiago Roberto
+-  João Vitor camargo
+-  Gustavo Ribeiro
+-  Maycon Wellington
+-  Marcello
+
 © 2023 OrganizAI. All rights reserved.
