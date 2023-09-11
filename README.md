@@ -1,6 +1,6 @@
 # Welcome to OrganizAI 📅🤖
 
-![OrganizAI Banner](link-to-your-image.png)
+![OrganizAI Banner](OrganizAIbanner.png)
 
 OrganizAI is more than just an agenda; it's your personal time optimization companion powered by cutting-edge Artificial Intelligence. Say goodbye to chaos and hello to efficient scheduling and task management! 🌟
 
