@@ -34,6 +34,8 @@ Join us on this exciting journey to reimagine time management. OrganizAI isn't j
 
 **Version:** 1.0.0
 
+**Branch Management:** Create your feature/bugfix branch from develop branch, commit your code and open a pull request. After reviewed and approved by another dev, merge the bugfix branch into develop. After each sprint, the develop environment will be tested and if functional, merged to the main branch.
+
 **Colaborators:**
 -  Pedro Masteguin - [Instagram](http://www.instagram.com/pedro_masteguin/) | [LinkedIn](http://linkedin.com/in/pedrohenriquemasteguin)
 -  Erik Galvao
