@@ -63,6 +63,7 @@ button{
     font-weight: 800;
     line-height: normal;
     text-transform: uppercase;
+    cursor: pointer;
 
 }
 .sign-in{
