@@ -17,6 +17,16 @@ public class Evento {
       private String data_inicio;
       private String data_fim;
       private String localizacao;
+
+
+      public String getEvento_status() {
+            return evento_status;
+      }
+
+      public void setEvento_status(String evento_status) {
+            this.evento_status = evento_status;
+      }
+
       private String evento_status;
       private String id_usuario;
       private String id_notificacao;
@@ -59,12 +69,8 @@ public class Evento {
       public void setLocalizacao(String localizacao) {
             this.localizacao = localizacao;
       }
-      public String getStatus() {
-            return evento_status;
-      }
-      public void setStatus(String evento_status) {
-            this.evento_status = evento_status;
-      }
+
+
       public String getId_usuario() {
             return id_usuario;
       }
