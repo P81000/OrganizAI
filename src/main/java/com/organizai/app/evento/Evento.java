@@ -4,8 +4,8 @@ import com.organizai.app.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-@Table(name = "Evento")
-@Entity(name = "Evento")
+
+@Entity
 public class Evento {
 
       @Getter
