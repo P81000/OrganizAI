@@ -11,13 +11,13 @@ import com.organizai.app.evento.Evento;
 
 @RestController
 @RequestMapping("/eventos")
-public class AgendaController {
+public class EventoController {
 
       @Autowired
       private EventoRepository eventoRepository;
 
       @GetMapping
-      public List<Evento> getAgenda() {
+      public List<Evento> getEvento() {
 
             //Eventos list
             List<Evento> Eventos = eventoRepository.findAll();
