@@ -225,7 +225,7 @@ onBeforeUnmount(() => {
   font-family: "Roboto";
   font-weight: 800;
   color: #293241;
-  font-size: 150%;
+  font-size: 130%;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
@@ -248,7 +248,7 @@ onBeforeUnmount(() => {
   font-family: "Roboto";
   font-weight: 800;
   color: #e0fbfc;
-  font-size: 150%;
+  font-size: 130%;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 5%;
+  top: 3%;
   z-index: 2;
 }
 .Welcome {
@@ -335,7 +335,7 @@ onBeforeUnmount(() => {
 .text-get-started {
   font-family: "Roboto";
   font-weight: 800;
-  font-size: 300%;
+  font-size: 250%;
   color: #293241;
   text-align: center;
   letter-spacing: 0;
@@ -419,6 +419,8 @@ li {
   justify-content: space-between;
   align-items: center;
   width: 10%;
+  margin-top: 1%;
+  margin-bottom: 0;
 }
 .social-media:hover {
   filter: drop-shadow(2px 2px 2px #ee6c4d);
@@ -428,8 +430,8 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 6%;
-  margin-top: 15px;
+  width: 7%;
+  margin-top: 1%;
 }
 a {
   text-decoration: none;
@@ -437,7 +439,7 @@ a {
 .text-util {
   color: #e0fbfc;
   font-family: "Roboto";
-  margin: 5px;
+  font-size: 1rem;
 }
 .text-util:hover {
   filter: drop-shadow(2px 2px 2px #ee6c4d);
@@ -446,6 +448,6 @@ a {
 .footer-© {
   color: #e0fbfc;
   font-family: "Roboto";
-  margin-top: 15px;
+  margin-top: 1%;
 }
 </style>

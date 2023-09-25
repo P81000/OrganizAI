@@ -14,7 +14,7 @@
             <div class="overlay">
               <div class="overlay-left">
                 <h2 class="title">Welcome Back!</h2>
-                <p>Please login with your personal info</p>
+                <p>What a pleasure see you again! Sign In with your account</p>
                 <button class="invert" id="signIn" @click="signUp = !signUp">
                   Sign In
                 </button>
@@ -92,7 +92,7 @@
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <a href="#">Forgot your password?</a>
-            <button class="normal">Sign Up</button>
+            <button class="normal">Sign In</button>
           </form>
         </div>
       </article>
@@ -283,6 +283,11 @@ button.invert {
   background-color: #e0fbfc; /* Cor do círculo branco */
   margin: 2vh; /* Espaçamento entre os ícones */
 }
+.social-icons:hover {
+  filter: drop-shadow(2px 2px 2px #ee6c4d);
+  transition: 0.3s;
+}
+
 .reg-img {
   width: 30px;
   height: 30px;
@@ -320,11 +325,12 @@ input {
 }
 input:focus {
   outline: none;
-  background-color: #fff;
+  background-color: #e0fbfc;
+  border: 1px solid #ee6c4d;
+  border-bottom: none;
 }
 a {
-  color: #222;
-  text-decoration: none;
+  color: #ee6c4d;
   margin: 15px 0;
   font-size: 1rem;
 }
