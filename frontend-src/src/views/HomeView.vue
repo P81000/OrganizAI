@@ -5,10 +5,10 @@
         class="fixed-header"
         :class="{ 'show-fixed-header': showFixedHeader }"
       >
-        <router-link to="/about" class="button-signin">
+        <router-link to="/registration" class="button-signin">
           <div class="text-signin">SIGN IN</div>
         </router-link>
-        <router-link to="/about" class="button-signup">
+        <router-link to="/registration" class="button-signup">
           <div class="text-signup">SIGN UP</div>
         </router-link>
       </div>
@@ -26,10 +26,10 @@
           />
         </div>
         <div class="button-container">
-          <router-link to="/about" class="button-signin">
+          <router-link to="/registration" class="button-signin">
             <div class="text-signin">SIGN IN</div>
           </router-link>
-          <router-link to="/about" class="button-signup">
+          <router-link to="/registration" class="button-signup">
             <div class="text-signup">SIGN UP</div>
           </router-link>
         </div>
@@ -40,7 +40,6 @@
           <span class="welcome-name">OrganizAI</span>
         </h1>
       </div>
-      <!-- Content -->
     </header>
     <main class="main">
       <img class="circles" src="../assets/circles.png" alt="Circles" />
@@ -50,7 +49,7 @@
         hello to efficient<br />
         scheduling and task management!
       </p>
-      <router-link to="/about" class="button-get-started">
+      <router-link to="/registration" class="button-get-started">
         <div class="text-get-started">Get Started!</div>
       </router-link>
       <img class="line" src="../assets/line.png" alt="Line" />
@@ -124,7 +123,7 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 const showFixedHeader = ref(false);
 
 const handleScroll = () => {
-  if (window.scrollY > 0) {
+  if (window.scrollY > 100) {
     showFixedHeader.value = true;
   } else {
     showFixedHeader.value = false;
@@ -153,7 +152,7 @@ onBeforeUnmount(() => {
   align-items: start;
   justify-content: center;
   width: 100vw;
-  height: 50vh;
+  height: 45vh;
 }
 .fixed-header {
   position: fixed;
@@ -170,7 +169,7 @@ onBeforeUnmount(() => {
   transition: height 0.3s, opacity 0.3s;
 }
 .show-fixed-header {
-  height: 60px;
+  height: 8%;
   opacity: 0.9;
 }
 .rectangle {
@@ -205,18 +204,18 @@ onBeforeUnmount(() => {
 .button-container {
   display: flex;
   position: absolute;
-  top: 10px;
+  top: 2%;
   right: 0;
 }
 .button-signin {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
-  height: 40px;
-  margin: 10px;
+  width: 8vw;
+  height: 4vh;
+  margin: 1%;
   background-color: #e0fbfc;
-  border-radius: 38px;
+  border-radius: 10rem;
   border: 1px solid;
   border-color: #000000;
   cursor: pointer;
@@ -226,7 +225,7 @@ onBeforeUnmount(() => {
   font-family: "Roboto";
   font-weight: 800;
   color: #293241;
-  font-size: 16px;
+  font-size: 150%;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
@@ -235,11 +234,11 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
-  height: 40px;
-  margin: 10px;
+  width: 8vw;
+  height: 4vh;
+  margin: 1%;
   background-color: #3d5a80;
-  border-radius: 38px;
+  border-radius: 10rem;
   border: 1px solid;
   border-color: #000000;
   cursor: pointer;
@@ -249,7 +248,7 @@ onBeforeUnmount(() => {
   font-family: "Roboto";
   font-weight: 800;
   color: #e0fbfc;
-  font-size: 16px;
+  font-size: 150%;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
@@ -272,13 +271,13 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 40px;
+  top: 5%;
   z-index: 2;
 }
 .Welcome {
   font-family: Roboto;
   font-weight: 900;
-  font-size: 64px;
+  font-size: 10vh;
   color: #e0fbfc;
   text-align: center;
   text-shadow: 0px 8px 2px rgba(0, 0, 0, 0.6);
@@ -289,7 +288,7 @@ onBeforeUnmount(() => {
   display: block;
   font-family: Roboto;
   font-weight: 900;
-  font-size: 200px;
+  font-size: 25vh;
   color: #e0fbfc;
 }
 /* header end */
@@ -317,16 +316,17 @@ onBeforeUnmount(() => {
   font-weight: 800;
   font-size: 40px;
   color: #293241;
+  margin-top: 8%;
   text-align: center;
 }
 .button-get-started {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 468px;
-  height: 60px;
+  width: 20vw;
+  height: 8vh;
   background-color: #ee6c4d;
-  border-radius: 38px;
+  border-radius: 10rem;
   border: 1px solid;
   border-color: #000000;
   cursor: pointer;
@@ -335,7 +335,7 @@ onBeforeUnmount(() => {
 .text-get-started {
   font-family: "Roboto";
   font-weight: 800;
-  font-size: 32px;
+  font-size: 300%;
   color: #293241;
   text-align: center;
   letter-spacing: 0;
