@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calendário</title>
+    <style>
+        /* Adicione seu estilo personalizado aqui */
+        .custom-login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #98C1D9;
+            font-family: Roboto,serif;
+            cursor: default;
+            user-select: none;
+        }
+
+        .custom-login-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .custom-login-title h1 {
+            font-size: 36px;
+            color: #293241;
+        }
+
+        /* Estilo do calendário */
+        .calendar {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .calendar table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .calendar th {
+            background-color: #293241;
+            color: #E0FBFC;
+            padding: 10px;
+        }
+
+        .calendar td {
+            padding: 10px;
+            border: 1px solid #293241;
+        }
+
+        .calendar td.today {
+            background-color: #E0FBFC;
+        }
+    </style>
+</head>
+<body>
+<div class="custom-login-container">
+    <div class="custom-login-title">
+        <h1>OrganizAI</h1>
+    </div>
+    <h1>Calendário</h1>
+    <h2>Bem-vindo, <span id="nomeUsuario"></span>!</h2>
+    <div class="calendar">
+        <table>
+            <!-- Adicione o código do calendário aqui -->
+        </table>
+    </div>
+</div>
+<script>
+
+    // Função para obter parâmetros da URL
+    function obterParametrosURL() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            nomeUsuario: params.get("nomeUsuario") || "Nome do Usuário"
+        };
+    }
+
+    // Obter os parâmetros da URL
+    const { nomeUsuario } = obterParametrosURL();
+
+    // Exibir o nome do usuário no local correto
+    document.getElementById("nomeUsuario").textContent = nomeUsuario;
+</script>
+</body>
+</html>
