@@ -19,6 +19,7 @@ public class Usuario {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
     private String username;
+    @Getter
     private String email;
     private String password;
     private byte[] salt;
@@ -85,7 +86,7 @@ public class Usuario {
 
         storePassword(password);
 
-        this.password = password;
+        //this.password = password;
     }
 
     public void setEventos(List<Evento> eventos) {
@@ -93,10 +94,8 @@ public class Usuario {
     }
 
     public String getPassword() throws NoSuchAlgorithmException {
-        return hashPassword(password, salt);
+
+        return password;
     }
 
-    public String getEmail() {
-        return email;
-    }
 }

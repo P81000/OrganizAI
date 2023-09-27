@@ -6,6 +6,7 @@ import com.organizai.app.usuario.Usuario;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -114,14 +115,25 @@ public class UsuarioController {
         }
 
         try {
+
+
             // Use a função de hash para calcular o hash da senha inserida no login
+
             String hashedPassword = hashPassword(loginRequest.getPassword(), usuario.getSalt());
+
+            /* System.out.println(Arrays.toString(usuario.getSalt()));
+            System.out.println(usuario.getPassword());
+
+            System.out.println(hashedPassword);*/
 
             // Compare o hash calculado com o hash da senha armazenada no banco de dados
             if (hashedPassword.equals(usuario.getPassword())) {
                 // Senha válida, login bem-sucedido
                 System.out.println("Login bem-sucedido");
-                return ResponseEntity.ok("Login bem-sucedido. " + usuario.getEmail());
+                System.out.println("Eventos: "+ usuario.getEventos());
+
+                return ResponseEntity.ok("Login bem-sucedido. " + usuario.getEmail() +usuario.getEventos());
+
             } else {
                 // Senha inválida, login falhou
                 //System.out.println(usuario.getPassword());
