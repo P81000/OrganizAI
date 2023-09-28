@@ -1,5 +1,6 @@
 package com.organizai.app.evento;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.organizai.app.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Evento {
       @Getter
       private String localizacao;
       private String evento_status;
+      @JsonIgnore
       @ManyToOne
       @JoinColumn(name="id_usuario")
       private Usuario _usuario;
@@ -58,6 +60,21 @@ public class Evento {
       public Usuario getUsuario() {
             return _usuario;
       }
+
+      public void set_usuario(Usuario _usuario) {
+            this._usuario = _usuario;
+      }
+      public String getCorpo() {
+
+          return "Título: " + titulo + "\n" +
+                    "Descrição: " + descricao + "\n" +
+                    "Data de Início: " + data_inicio + "\n" +
+                    "Data de Fim: " + data_fim + "\n" +
+                    "Localização: " + localizacao + "\n";
+      }
+
+
+
 
       public void setId_notificacao(String id_notificacao) {
             this.id_notificacao = id_notificacao;
