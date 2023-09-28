@@ -362,33 +362,35 @@ onBeforeUnmount(() => {
   margin-bottom: 10%;
 }
 .summary {
-  width: 475px;
-  height: 269px;
+  width: 480px;
+  height: 265px;
   font-family: Roboto;
   font-weight: 300;
   font-size: 32px;
   font-style: normal;
   color: #293241;
   flex-shrink: 0;
-  text-align: center;
+  text-align: justify;
   line-height: 107.9%;
   letter-spacing: 2.72px;
+  margin-left: -10px;
 }
 ol {
-  width: 475px;
+  width: 480px;
   height: 269px;
   font-family: Roboto;
   font-weight: 300;
   font-size: 32px;
   font-style: normal;
   color: #293241;
-  text-align: center;
+  text-align: justify;
   line-height: 107.9%;
-  letter-spacing: 2.72px;
+  letter-spacing: 2.7px;
   margin-left: 1%;
 }
 li {
   list-style-type: disc;
+  margin-bottom: 3%;
 }
 .woman-at-pc,
 .man-at-pc {

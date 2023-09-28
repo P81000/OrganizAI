@@ -56,9 +56,9 @@
               </a>
             </div>
             <p class="option">or use your email for registration</p>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input type="text" placeholder="Name" required />
+            <input type="email" placeholder="Email" required />
+            <input type="password" placeholder="Password" required />
             <button class="normal">Sign Up</button>
           </form>
           <form class="sign-in" action="#">
