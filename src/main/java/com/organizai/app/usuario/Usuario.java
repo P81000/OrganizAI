@@ -3,6 +3,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.organizai.app.evento.Evento;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,10 +20,13 @@ public class Usuario {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
     private String username;
+    @Getter
     private String email;
     private String password;
     private byte[] salt;
 
+    @Getter
+    @JsonIgnore
     @OneToMany(mappedBy = "_usuario", cascade = CascadeType.ALL)
     private List<Evento> eventos = new ArrayList<>();
 
@@ -85,18 +89,16 @@ public class Usuario {
 
         storePassword(password);
 
-        this.password = password;
+        //this.password = password;
     }
 
-    public void setEventos(List<Evento> eventos) {
-        this.eventos = eventos;
+    public void setEventos(Evento eventos) {
+        this.eventos.add(eventos);
     }
 
     public String getPassword() throws NoSuchAlgorithmException {
-        return hashPassword(password, salt);
+
+        return password;
     }
 
-    public String getEmail() {
-        return email;
-    }
 }

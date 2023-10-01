@@ -26,66 +26,54 @@
     </form>
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const senhaInvalidaElement = document.getElementById("senhaInvalida");
+        senhaInvalidaElement.style.display = "none"; // Começa oculto
 
-        // Enviar os dados no formato JSON para o endpoint /usuario/login
-        document.addEventListener("DOMContentLoaded", function() {
-            const senhaInvalidaElement = document.getElementById("senhaInvalida");
-            senhaInvalidaElement.style.display = "none"; // Começa oculto
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
 
-            document.getElementById("loginForm").addEventListener("submit", function (e) {
-                e.preventDefault();
-                const email = document.getElementById("email").value;
-                const password = document.getElementById("password").value;
+            localStorage.setItem('email', email); // Armazene a resposta JSON no localStorage
+            const password = document.getElementById("password").value;
 
-                // Enviar os dados no formato JSON para o endpoint /usuario/login
-                fetch("/usuario/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    })
+            fetch("/usuario/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
                 })
-                    .then(response => {
-                        if (response.ok) {
-                            // Login bem-sucedido, redirecione para a página desejada com parâmetros na URL
-                            return response.text(); // Retornar a resposta como texto
-                        } else {
-                            senhaInvalidaElement.style.display = "block";
-                            senhaInvalidaElement.textContent = "Senha incorreta"; // Mensagem de aviso
-                            senhaInvalidaElement.style.color = "red"; // Cor vermelha
-                            senhaInvalidaElement.style.marginTop = "5px"; // Espaçamento superior
-                            setTimeout(() => {
-                                senhaInvalidaElement.style.display = "none";
-                            }, 3000); // Esconde após 3 segundos (ajuste conforme necessário)
-                            throw new Error("Erro de login");
-                        }
-                    })
-                    .then(data => {
-                        // Separar a mensagem do nome do usuário
-                        const parts = data.split('.'); // Você pode escolher um separador melhor
-                        //const mensagem = parts[0];
-                        const nomeUsuario = parts[1];
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json(); // Altere para response.json()
+                    } else {
+                        senhaInvalidaElement.style.display = "block";
+                        senhaInvalidaElement.textContent = "Senha ou email incorreto";
+                        senhaInvalidaElement.style.color = "red";
+                        senhaInvalidaElement.style.marginTop = "5px";
+                        setTimeout(() => {
+                            senhaInvalidaElement.style.display = "none";
+                        }, 3000);
+                        throw new Error("Erro de login");
+                    }
+                })
+                .then(data => {
 
-                        // Criar a URL com parâmetros
-                        const dataHoraAtual = new Date();
-                        const redirectURL = `/logado.html?nomeUsuario=${nomeUsuario}&dataHora=${dataHoraAtual}`;
-
-                        // Redirecionar para a página desejada
-                        window.location.href = redirectURL;
-                    })
-                    .catch(error => {
-                        // Tratar erros de requisição
-                        console.error("Erro na requisição:", error);
-                    });
-            });
+                    localStorage.setItem('email', email);
+                    localStorage.setItem('eventos', JSON.stringify(data)); // Armazene a resposta JSON no localStorage
+                    const dataHoraAtual = new Date();
+                    const redirectURL = `/logado.html?nomeUsuario=${email}&dataHora=${dataHoraAtual}`;
+                    window.location.href = redirectURL;
+                })
+                .catch(error => {
+                    console.error("Erro na requisição:", error);
+                });
         });
-
-
-
-
+    });
 </script>
 
 

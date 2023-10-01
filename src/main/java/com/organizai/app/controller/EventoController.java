@@ -1,6 +1,10 @@
 package com.organizai.app.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import com.organizai.app.usuario.Usuario;
+import com.organizai.app.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -11,6 +15,7 @@ import com.organizai.app.evento.Evento;
 
 @RestController
 @RequestMapping("/eventos")
+
 public class EventoController {
 
       @Autowired
@@ -23,7 +28,10 @@ public class EventoController {
             List<Evento> Eventos = eventoRepository.findAll();
             return Eventos;
       }
+    @Autowired
+    private UsuarioRepository usuarioRepository; // Injete o UsuarioRepository
 
+    /*
     @PostMapping
 
       public ResponseEntity<Evento> createEvento(@RequestBody Evento novoEvento) {
@@ -36,7 +44,41 @@ public class EventoController {
 
             // Retorne o evento salvo e o status 201 Created
             return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
-      }
+      }*/
+    @PostMapping("/{email}")
+    public ResponseEntity<Evento> createEvento(@PathVariable String email, @RequestBody Evento novoEvento) {
+        // Verificar se é válido
+
+        System.out.println(email);
+        if (novoEvento == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        // Verificar se o usuário existe
+        if (usuario==null) {
+            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o usuário não existe
+        }
+              //  System.out.println(" usuario : "+ usuario);
+             //   System.out.println("evento usuario antes: "+ usuario.getEventos());
+               usuario.setEventos(novoEvento);
+             //   System.out.println("Usuario: " +usuario.getUsername() +"evento:" +  usuario.getEventos());
+               novoEvento.set_usuario(usuario);
+        System.out.println("evento: "+ novoEvento.getUsuario() );
+        //usuarioRepository.save(usuario);
+        // Vincular o evento ao usuário
+
+        // Salvar o novo evento no banco de dados
+        Evento eventoSalvo = eventoRepository.save(novoEvento);
+        //usuarioRepository.save()
+
+        // Retornar o evento salvo e o status 201 Created
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
+    }
+
+
+
+
+
       @PutMapping("/{id}") // Mapeia para eventos/{id} com método PUT
       public ResponseEntity<Evento> updateEvento(@PathVariable Integer id, @RequestBody Evento eventoAtualizado) {
             // Verifique se o evento a ser atualizado existe

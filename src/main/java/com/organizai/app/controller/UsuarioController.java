@@ -1,4 +1,6 @@
 package com.organizai.app.controller;
+import com.organizai.app.evento.Evento;
+import com.organizai.app.evento.EventoDTO;
 import com.organizai.app.model.LoginRequest; // Verifique o pacote real onde a classe está definida
 
 import com.organizai.app.usuario.UsuarioRepository;
@@ -6,6 +8,8 @@ import com.organizai.app.usuario.Usuario;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,7 +100,7 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) throws NoSuchAlgorithmException {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws NoSuchAlgorithmException {
         // Recupere o usuário com base no nome de usuário (ou email) fornecido no login
         Usuario usuario = _usuarioRepository.findByEmail(loginRequest.getEmail());
 
@@ -114,14 +118,49 @@ public class UsuarioController {
         }
 
         try {
+
+
             // Use a função de hash para calcular o hash da senha inserida no login
+
             String hashedPassword = hashPassword(loginRequest.getPassword(), usuario.getSalt());
+
+            /* System.out.println(Arrays.toString(usuario.getSalt()));
+            System.out.println(usuario.getPassword());
+
+            System.out.println(hashedPassword);*/
 
             // Compare o hash calculado com o hash da senha armazenada no banco de dados
             if (hashedPassword.equals(usuario.getPassword())) {
                 // Senha válida, login bem-sucedido
                 System.out.println("Login bem-sucedido");
-                return ResponseEntity.ok("Login bem-sucedido. " + usuario.getEmail());
+
+                List<Evento> eventos = usuario.getEventos();
+                List<EventoDTO> eventoDTOs = new ArrayList<>();
+
+                for (Evento evento : eventos) {
+                    EventoDTO eventoDTO = new EventoDTO(
+                            evento.getTitulo(),
+                            evento.getDescricao(),
+                            evento.getData_inicio(),
+                            evento.getData_fim(),
+                            evento.getLocalizacao()
+                    );
+                    eventoDTOs.add(eventoDTO);
+                }
+                System.out.println(eventoDTOs);
+
+                for (Evento evento : eventos) {
+                    String corpoDoEvento = evento.getCorpo(); // Substitua getCorpo() pelo método real
+                    System.out.println(corpoDoEvento);
+                }
+
+
+
+
+
+                return  ResponseEntity.ok(eventoDTOs);
+                //return ResponseEntity.ok("Login bem-sucedido. " + usuario.getEmail() +eventoDTOs);
+
             } else {
                 // Senha inválida, login falhou
                 //System.out.println(usuario.getPassword());
