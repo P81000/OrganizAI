@@ -4,34 +4,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.organizai.app.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
+@Setter
+@Getter
 public class Evento {
 
-      @Getter
       @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
       private int id_evento;
-      @Getter
       private String titulo;
-      @Getter
       private String descricao;
-      @Getter
       private String data_inicio;
-      @Getter
       private String data_fim;
-      @Getter
       private String localizacao;
       private String evento_status;
       @JsonIgnore
       @ManyToOne
       @JoinColumn(name="id_usuario")
       private Usuario _usuario;
-      @Getter
       private String id_notificacao;
-      @Getter
       private String id_info_clima;
-      @Getter
       private String id_info_trajeto;
 
       public void setId_evento(int id_evento) {
@@ -56,11 +50,6 @@ public class Evento {
             this.localizacao = localizacao;
       }
 
-
-      public Usuario getUsuario() {
-            return _usuario;
-      }
-
       public void set_usuario(Usuario _usuario) {
             this._usuario = _usuario;
       }
@@ -72,9 +61,6 @@ public class Evento {
                     "Data de Fim: " + data_fim + "\n" +
                     "Localização: " + localizacao + "\n";
       }
-
-
-
 
       public void setId_notificacao(String id_notificacao) {
             this.id_notificacao = id_notificacao;

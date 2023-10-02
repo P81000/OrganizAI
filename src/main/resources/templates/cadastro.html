@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Usuário</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
 <div class="custom-login-container">
@@ -20,7 +20,7 @@
 
         <label for="password">Senha:</label>
         <input type="password" id="password" name="password" class="custom-input" required><br>
-        <p id="emailInvalido" class="email-invalido">Email Inválido</p> <!-- Adicione esta linha -->
+        <p id="emailInvalido" class="email-invalido">Email Inválido</p>
 
         <button type="submit" class="custom-button">Cadastrar</button>
     </form>
@@ -51,7 +51,7 @@
                 .then(response => {
                     if (response.ok) {
                         // Cadastro bem-sucedido, redirecione para a página de login
-                        window.location.href = "/login.html"; // Substitua com a URL da página de login
+                        window.location.href = "/login"; // Substitua com a URL da página de login
                     } else {
                         // Tratar a resposta do servidor para erros de cadastro
                         console.log("Erro de cadastro:", response.statusText);

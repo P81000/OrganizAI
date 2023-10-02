@@ -1,4 +1,5 @@
 package com.organizai.app.usuario;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -11,16 +12,17 @@ import lombok.Getter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.organizai.app.model.LoginRequest; // Substitua "model" pelo pacote real onde a classe está definida
 
 
 @Getter
 @Entity
 public class Usuario {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
     private String username;
-    @Getter
     private String email;
     private String password;
     private byte[] salt;
@@ -33,7 +35,6 @@ public class Usuario {
     public Usuario() {
 
     }
-
 
     private static byte[] generateSalt() {
         SecureRandom random = new SecureRandom();
@@ -66,6 +67,7 @@ public class Usuario {
         // Armazene o salt para uso posterior na validação
         this.salt = salt;
     }
+
     public Usuario(int idUsuario, String userName, String pwd) throws NoSuchAlgorithmException {
         id_usuario = idUsuario;
         username = userName;
