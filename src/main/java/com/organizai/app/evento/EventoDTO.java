@@ -2,8 +2,11 @@ package com.organizai.app.evento;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.organizai.app.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class EventoDTO {
     @JsonProperty("titulo")
@@ -31,6 +34,29 @@ public class EventoDTO {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.localizacao = localizacao;
+    }
+
+    public static List<EventoDTO> buildEventosDTOs(Usuario usuario) {
+        List<Evento> eventos = usuario.getEventos();
+        List<EventoDTO> eventoDTOs = new ArrayList<>();
+
+        for (Evento evento : eventos) {
+            EventoDTO eventoDTO = new EventoDTO(
+                    evento.getTitulo(),
+                    evento.getDescricao(),
+                    evento.getData_inicio(),
+                    evento.getData_fim(),
+                    evento.getLocalizacao()
+            );
+            eventoDTOs.add(eventoDTO);
+        }
+        System.out.println(eventoDTOs);
+
+        for (Evento evento : eventos) {
+            String corpoDoEvento = evento.getCorpo(); // Substitua getCorpo() pelo método real
+            System.out.println(corpoDoEvento);
+        }
+        return eventoDTOs;
     }
 
     // getters e setters

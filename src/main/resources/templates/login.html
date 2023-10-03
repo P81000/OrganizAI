@@ -2,9 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
     <title>Custom Login</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
 <div class="custom-login-container">
@@ -26,11 +25,11 @@
     </form>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const senhaInvalidaElement = document.getElementById("senhaInvalida");
         senhaInvalidaElement.style.display = "none"; // Começa oculto
 
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
             e.preventDefault();
             const email = document.getElementById("email").value;
 
@@ -49,7 +48,9 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        return response.json(); // Altere para response.json()
+                        console.log("Login bem-sucedido");
+                        window.location.href = "/eventos";
+                        //return response.json(); // Altere para response.json()
                     } else {
                         senhaInvalidaElement.style.display = "block";
                         senhaInvalidaElement.textContent = "Senha ou email incorreto";
@@ -64,10 +65,8 @@
                 .then(data => {
 
                     localStorage.setItem('email', email);
-                    localStorage.setItem('eventos', JSON.stringify(data)); // Armazene a resposta JSON no localStorage
                     const dataHoraAtual = new Date();
-                    const redirectURL = `/logado.html?nomeUsuario=${email}&dataHora=${dataHoraAtual}`;
-                    window.location.href = redirectURL;
+                    window.location.href = `/eventos`;
                 })
                 .catch(error => {
                     console.error("Erro na requisição:", error);
