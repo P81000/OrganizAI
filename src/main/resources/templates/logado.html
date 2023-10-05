@@ -136,7 +136,7 @@
         }
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+
             const cadastroTarefaForm = document.getElementById("cadastroTarefaForm");
             const tarefaForm = document.getElementById("tarefaForm");
 
@@ -181,7 +181,7 @@
                         if (response.ok) {
                             // Tarefa cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
                             alert("Tarefa cadastrada com sucesso!");
-                            window.location.href = "/login.html"
+                            window.location.href = "/login"
 
                         } else {
                             // Tratar a resposta do servidor para erros de cadastro de tarefa
