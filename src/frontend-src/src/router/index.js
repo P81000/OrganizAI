@@ -20,6 +20,13 @@ const routes = [
       import(/* webpackChunkName: "login" */ "../views/RegistrationView.vue"),
   },
   {
+    path: "/calendario",
+    name: "calendario",
+    component: () =>
+        import(/* webpackChunkName: "login" */ "../views/CalendarView.vue"),
+  },
+
+  {
     path: "/:pathMatch(.*)*",
     name: "not-found",
     component: () =>

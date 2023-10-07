@@ -81,7 +81,7 @@ public class UsuarioController {
         Usuario usuario = _usuarioRepository.findByEmail(loginRequest.getEmail());
 
         if (usuario == null) {
-            // Usuário não encontrado, login falhou
+            System.out.println("Usuario nao encontrado!");// Usuário não encontrado, login falhou
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
         }
 
@@ -90,6 +90,7 @@ public class UsuarioController {
             String hashedPassword = hashPassword(loginRequest.getPassword(), usuario.getSalt());
 
             if (hashedPassword.equals(usuario.getPassword())) {
+                System.out.println("Login Aceito!\n");
                 return ResponseEntity.ok("redirect:/eventos");
             } else {
                 System.out.println("Senha inválida.");

@@ -1,3 +1,21 @@
+<script setup>
+import { onBeforeUnmount, onMounted, ref } from "vue";
+
+
+const showFixedHeader = ref(false);
+
+const handleScroll = () => {
+  showFixedHeader.value = window.scrollY > 100;
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+</script>
 <template>
   <div class="home">
     <header class="header">
@@ -117,27 +135,7 @@
   </div>
 </template>
 
-<script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
 
-const showFixedHeader = ref(false);
-
-const handleScroll = () => {
-  if (window.scrollY > 100) {
-    showFixedHeader.value = true;
-  } else {
-    showFixedHeader.value = false;
-  }
-};
-
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
-</script>
 
 <style scoped>
 .home {

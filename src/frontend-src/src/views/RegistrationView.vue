@@ -1,3 +1,65 @@
+
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import router from "@/router";
+import Router from "@/router";
+const email = ref("");
+const password = ref("");
+const passwordCadastro = ref("");
+const emailCadastro = ref("");
+const name =ref("");
+const signUp = ref(false);
+const showError = ref(false);
+
+const signIn = () => {
+  console.log("SING");
+  // Aqui você faz a requisição POST para o endpoint de login
+  axios.post('http://localhost:8080/usuario/login', {
+    // Aqui você pode passar os dados de login, como email e senha
+    email: email.value,
+    password: password.value
+  })
+      .then(response => {
+        console.log(response);
+        // Lidar com a resposta do servidor, por exemplo, redirecionar o usuário
+        router.push('/calendario');
+
+        // para a página de eventos se o login for bem-sucedido
+      })
+      .catch(error => {
+        showError.value = true; // Exibe a mensagem de erro
+        console.error('Erro ao fazer login:', error);
+      });
+};
+const cadastro = () => {
+  console.log("cadastro");
+
+  // Aqui você faz a requisição POST para o endpoint de login
+  axios.post('http://localhost:8080/usuario/cadastro', {
+    // Aqui você pode passar os dados de login, como email e senha
+    username: name.value,
+    email: email.value,
+    password: password.value
+  })
+      .then(response => {
+        console.log(response);
+        // Lidar com a resposta do servidor, por exemplo, redirecionar o usuário
+        // para a página de eventos se o login for bem-sucedido
+
+        if (response.status === 200) {
+          router.push('/calendario'); // Certifique-se de importar 'router' caso necessário
+        } else {
+          console.log("Entrei");
+         // showError.value = true; // Exibe a mensagem de erro
+        }
+      })
+      .catch(error => {
+        //showError.value = true; // Exibe a mensagem de erro
+        console.error('Erro ao fazer cadastro:', error);
+      });
+};
+</script>
 <template>
   <div class="home">
     <header class="header">
@@ -15,7 +77,7 @@
               <div class="overlay-left">
                 <h2 class="title">Welcome Back!</h2>
                 <p>What a pleasure see you again! Sign In with your account</p>
-                <button class="invert" id="signIn" @click="signUp = !signUp">
+                <button class="invert" id="signIn" @click=signIn()>
                   Sign In
                 </button>
               </div>
@@ -56,10 +118,10 @@
               </a>
             </div>
             <p class="option">or use your email for registration</p>
-            <input type="text" placeholder="Name" required />
-            <input type="email" placeholder="Email" required />
-            <input type="password" placeholder="Password" required />
-            <button class="normal">Sign Up</button>
+            <input type="text" placeholder="Name" v-model="name" required />
+            <input type="email" placeholder="EmailCadastro" v-model="emailCadastro" required />
+            <input type="password" placeholder="PasswordCadastro" v-model="passwordCadastro" required />
+            <button class="normal" @click="cadastro">Sign Up</button>
           </form>
           <form class="sign-in" action="#">
             <h2 class="account">Sign In</h2>
@@ -89,10 +151,11 @@
               </a>
             </div>
             <p class="option">or use your account</p>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input type="email" placeholder="Email" v-model="email" />
+            <input type="password" placeholder="Password" v-model="password"/>
             <a href="#">Forgot your password?</a>
-            <button class="normal">Sign In</button>
+            <button class="normal"  @click="signIn">Sign In</button>
+            <p v-if="showError" class="error-text">Credenciais Invalidas</p>
           </form>
         </div>
       </article>
@@ -100,10 +163,9 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-const signUp = ref(false);
-</script>
+
+
+
 
 <style scoped>
 .home {
@@ -317,7 +379,7 @@ input {
   border-radius: 5rem;
   border-bottom: 1px solid #ee6c4d;
   overflow: hidden;
-  font-family: "Roboto";
+  font-family: "Roboto",serif;
   font-weight: 500;
   font-size: 120%;
   text-align: center;
@@ -357,5 +419,10 @@ a {
 }
 .sign-up-active .overlay {
   transform: translateX(50%);
+}
+.error-text {
+  color: red;
+  font-size: 1rem;
+  margin-top: 10px;
 }
 </style>
