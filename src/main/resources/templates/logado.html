@@ -67,7 +67,7 @@
             <tr>
                 <th>Título</th>
                 <th>Descrição</th>
-                <th>Data de Início</th>
+                <th>Id do evento</th>
                 <th>Data de Fim</th>
                 <th>Localização</th>
             </tr>
@@ -76,8 +76,8 @@
             <tr th:each="evento : ${eventos}">
                 <td th:text="${evento.titulo}"></td>
                 <td th:text="${evento.descricao}"></td>
-                <td th:text="${evento.data_inicio}"></td>
-                <td th:text="${evento.data_fim}"></td>
+                <td th:text="${evento.id}"></td>
+                <td th:text="${evento.dataFim}"></td>
                 <td th:text="${evento.localizacao}"></td>
             </tr>
             </tbody>
@@ -135,71 +135,70 @@
             return paramMap;
         }
 
+        const cadastroTarefaForm = document.getElementById("cadastroTarefaForm");
+        const tarefaForm = document.getElementById("tarefaForm");
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const cadastroTarefaForm = document.getElementById("cadastroTarefaForm");
-            const tarefaForm = document.getElementById("tarefaForm");
-
-            // Adicione um evento ao botão "Cadastrar Tarefa" para exibir o formulário de cadastro de tarefas
-            document.getElementById("btnCadastrarTarefa").addEventListener("click", function () {
-                cadastroTarefaForm.style.display = "block";
-            });
-
-            tarefaForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-                const titulo = document.getElementById("titulo").value;
-                const descricao = document.getElementById("descricao").value;
-                const dataInicio = document.getElementById("dataInicio").value;
-                const dataFim = document.getElementById("dataFim").value;
-                const localizacao = document.getElementById("localizacao").value;
-                const idNotificacao = document.getElementById("idNotificacao").value;
-                const idInfoClima = document.getElementById("idInfoClima").value;
-                const idInfoTrajeto = document.getElementById("idInfoTrajeto").value;
-
-                // Construa um objeto com os dados da tarefa
-                const tarefa = {
-                    titulo: titulo,
-                    descricao: descricao,
-                    data_inicio: dataInicio,
-                    data_fim: dataFim,
-                    localizacao: localizacao,
-                    id_notificacao: idNotificacao,
-                    id_info_clima: idInfoClima,
-                    id_info_trajeto: idInfoTrajeto
-                };
-                const email = localStorage.getItem("email");
-
-                // Enviar os dados no formato JSON para o endpoint adequado (substitua com o URL correto)
-                fetch(`/eventos/${email}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(tarefa)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            // Tarefa cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
-                            alert("Tarefa cadastrada com sucesso!");
-                            window.location.href = "/login.html"
-
-                        } else {
-                            // Tratar a resposta do servidor para erros de cadastro de tarefa
-                            console.error("Erro de cadastro de tarefa:", response.statusText);
-                            alert("Erro ao cadastrar a tarefa. Por favor, tente novamente.");
-                        }
-                    })
-                    .catch(error => {
-                        // Tratar erros de requisição
-                        console.error("Erro na requisição:", error);
-                        alert("Erro ao cadastrar a tarefa. Por favor, tente novamente.");
-                    });
-
-                // Limpar o formulário após o cadastro
-                tarefaForm.reset();
-                cadastroTarefaForm.style.display = "none"; // Ocultar o formulário após o cadastro
-            });
+        // Adicione um evento ao botão "Cadastrar Tarefa" para exibir o formulário de cadastro de tarefas
+        document.getElementById("btnCadastrarTarefa").addEventListener("click", function () {
+            console.log("Botão clicado");
+            cadastroTarefaForm.style.display = "block";
         });
+
+        tarefaForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const titulo = document.getElementById("titulo").value;
+            const descricao = document.getElementById("descricao").value;
+            const dataInicio = document.getElementById("dataInicio").value;
+            const dataFim = document.getElementById("dataFim").value;
+            const localizacao = document.getElementById("localizacao").value;
+            const idNotificacao = document.getElementById("idNotificacao").value;
+            const idInfoClima = document.getElementById("idInfoClima").value;
+            const idInfoTrajeto = document.getElementById("idInfoTrajeto").value;
+
+            // Construa um objeto com os dados da tarefa
+            const tarefa = {
+                titulo: titulo,
+                descricao: descricao,
+                data_inicio: dataInicio,
+                data_fim: dataFim,
+                localizacao: localizacao,
+                id_notificacao: idNotificacao,
+                id_info_clima: idInfoClima,
+                id_info_trajeto: idInfoTrajeto
+            };
+            const email = localStorage.getItem("email");
+
+            // Enviar os dados no formato JSON para o endpoint adequado (substitua com o URL correto)
+            fetch(`/eventos/${email}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(tarefa)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Tarefa cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
+                        alert("Tarefa cadastrada com sucesso!");
+                        window.location.href = "/eventos"
+
+                    } else {
+                        // Tratar a resposta do servidor para erros de cadastro de tarefa
+                        console.error("Erro de cadastro de tarefa:", response.statusText);
+                        alert("Erro ao cadastrar a tarefa. Por favor, tente novamente.");
+                    }
+                })
+                .catch(error => {
+                    // Tratar erros de requisição
+                    console.error("Erro na requisição:", error);
+                    alert("Erro ao cadastrar a tarefa. Por favor, tente novamente.");
+                });
+
+            // Limpar o formulário após o cadastro
+            tarefaForm.reset();
+            cadastroTarefaForm.style.display = "none"; // Ocultar o formulário após o cadastro
+        });
+    });
 </script>
 
 

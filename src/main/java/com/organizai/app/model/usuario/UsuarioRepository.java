@@ -1,4 +1,4 @@
-package com.organizai.app.usuario;
+package com.organizai.app.model.usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
