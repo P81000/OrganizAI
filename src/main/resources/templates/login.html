@@ -36,7 +36,7 @@
             localStorage.setItem('email', email); // Armazene a resposta JSON no localStorage
             const password = document.getElementById("password").value;
 
-            fetch("/usuario/login", {
+            fetch("/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

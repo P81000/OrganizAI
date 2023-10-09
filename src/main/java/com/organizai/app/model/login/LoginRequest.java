@@ -1,4 +1,4 @@
-package com.organizai.app.model;
+package com.organizai.app.model.login;
 
 import lombok.Getter;
 

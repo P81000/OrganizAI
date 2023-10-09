@@ -1,34 +1,42 @@
-package com.organizai.app.evento;
+package com.organizai.app.model.evento;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.organizai.app.usuario.Usuario;
+import com.organizai.app.model.usuario.Usuario;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+@NoArgsConstructor
+@Builder
 public class EventoDTO {
+
+    @JsonProperty("id")
+    public int id;
+
     @JsonProperty("titulo")
-    private String titulo;
+    public String titulo;
 
     @JsonProperty("descricao")
-    private String descricao;
+    public String descricao;
 
     @JsonProperty("data_inicio")
     //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
-    private String dataInicio;
+    public String dataInicio;
 
     @JsonProperty("data_fim")
    // @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
-    private String dataFim;
+    public String dataFim;
 
     @JsonProperty("localizacao")
-    private String localizacao;
+    public String localizacao;
 
     // Construtores, getters e setters
 
-    public EventoDTO(String titulo, String descricao, String dataInicio, String dataFim, String localizacao) {
+    public EventoDTO(Integer id, String titulo, String descricao, String dataInicio, String dataFim, String localizacao) {
+        this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataInicio = dataInicio;
@@ -42,6 +50,7 @@ public class EventoDTO {
 
         for (Evento evento : eventos) {
             EventoDTO eventoDTO = new EventoDTO(
+                    evento.getId_evento(),
                     evento.getTitulo(),
                     evento.getDescricao(),
                     evento.getData_inicio(),
@@ -59,5 +68,13 @@ public class EventoDTO {
         return eventoDTOs;
     }
 
-    // getters e setters
+    public String getCorpo() {
+
+          return "Id" + id + "\n" +
+                    "Título: " + titulo + "\n" +
+                    "Descrição: " + descricao + "\n" +
+                    "Data de Início: " + dataInicio + "\n" +
+                    "Data de Fim: " + dataFim + "\n" +
+                    "Localização: " + localizacao + "\n";
+      }
 }
