@@ -1,10 +1,14 @@
 package com.organizai.app.model.evento;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -27,6 +31,15 @@ public class Evento {
       private String id_notificacao;
       private String id_info_clima;
       private String id_info_trajeto;
+
+      @Getter
+      @JsonIgnore
+      @OneToMany(mappedBy = "_evento", cascade = CascadeType.ALL)
+      private List<Tarefa> tarefas = new ArrayList<>();
+
+      public void setTarefas(Tarefa tarefa) {
+            this.tarefas.add(tarefa);
+      }
 
       public void setId_evento(int id_evento) {
             this.id_evento = id_evento;
