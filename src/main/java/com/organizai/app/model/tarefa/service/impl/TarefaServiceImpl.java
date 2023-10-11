@@ -1,5 +1,7 @@
 package com.organizai.app.model.tarefa.service.impl;
 
+import com.organizai.app.model.evento.Evento;
+import com.organizai.app.model.evento.EventoDTO;
 import com.organizai.app.model.tarefa.*;
 import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.tarefa.mapper.TarefaMapper;
@@ -59,4 +61,13 @@ public class TarefaServiceImpl implements TarefaService {
     public List<TarefaDTO> searchTarefas(String query) {
         return null;
     }
+
+    public void deleteAllTarefasByEvento(EventoDTO evento){
+        List<Tarefa> tarefas = evento.getTarefas();
+        for(Tarefa tarefa: tarefas){
+            int idTarefa = tarefa.getIdTarefa();
+            tarefaRepository.deleteById(idTarefa);
+        }
+    }
+
 }
