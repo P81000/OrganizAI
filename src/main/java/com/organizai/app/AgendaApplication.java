@@ -1,9 +1,8 @@
 package com.organizai.app;
 
-import com.organizai.app.evento.Evento;
-import com.organizai.app.evento.EventoRepository;
-import com.organizai.app.usuario.Usuario;
-import com.organizai.app.usuario.UsuarioRepository;
+import com.organizai.app.model.evento.EventoRepository;
+import com.organizai.app.model.usuario.UsuarioRepository;
+import com.organizai.app.model.tarefa.TarefaRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +15,6 @@ public class AgendaApplication {
 
 		EventoRepository eventoRepository = context.getBean(EventoRepository.class);
 		UsuarioRepository usuarioRepository = context.getBean(UsuarioRepository.class);
-
+		TarefaRepository tarefaRepository = context.getBean(TarefaRepository.class);
 	}
 }

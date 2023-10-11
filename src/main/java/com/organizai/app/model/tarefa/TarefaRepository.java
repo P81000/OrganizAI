@@ -1,4 +1,4 @@
-package com.organizai.app.tarefa;
+package com.organizai.app.model.tarefa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

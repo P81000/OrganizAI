@@ -1,8 +1,8 @@
-package com.organizai.app.evento;
+package com.organizai.app.model.evento;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.organizai.app.tarefa.Tarefa;
-import com.organizai.app.usuario.Usuario;
+import com.organizai.app.model.tarefa.Tarefa;
+import com.organizai.app.model.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
