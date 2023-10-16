@@ -1,9 +1,11 @@
 package com.organizai.app.model.evento;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.usuario.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Builder
+@Getter
 public class EventoDTO {
 
     @JsonProperty("id")
@@ -33,15 +36,19 @@ public class EventoDTO {
     @JsonProperty("localizacao")
     public String localizacao;
 
+    @JsonProperty("tarefas")
+    public List<Tarefa> tarefas;
+
     // Construtores, getters e setters
 
-    public EventoDTO(Integer id, String titulo, String descricao, String dataInicio, String dataFim, String localizacao) {
+    public EventoDTO(Integer id, String titulo, String descricao, String dataInicio, String dataFim, String localizacao, List<Tarefa> tarefas) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.localizacao = localizacao;
+        this.tarefas = tarefas;
     }
 
     public static List<EventoDTO> buildEventosDTOs(Usuario usuario) {
@@ -55,7 +62,8 @@ public class EventoDTO {
                     evento.getDescricao(),
                     evento.getData_inicio(),
                     evento.getData_fim(),
-                    evento.getLocalizacao()
+                    evento.getLocalizacao(),
+                    evento.getTarefas()
             );
             eventoDTOs.add(eventoDTO);
         }
@@ -75,6 +83,7 @@ public class EventoDTO {
                     "Descrição: " + descricao + "\n" +
                     "Data de Início: " + dataInicio + "\n" +
                     "Data de Fim: " + dataFim + "\n" +
-                    "Localização: " + localizacao + "\n";
+                    "Localização: " + localizacao + "\n" +
+                    "Tarefas: " + tarefas + "\n";
       }
 }

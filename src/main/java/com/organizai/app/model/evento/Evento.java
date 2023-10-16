@@ -72,7 +72,8 @@ public class Evento {
                     "Descrição: " + descricao + "\n" +
                     "Data de Início: " + data_inicio + "\n" +
                     "Data de Fim: " + data_fim + "\n" +
-                    "Localização: " + localizacao + "\n";
+                    "Localização: " + localizacao + "\n" +
+                    "Tarefas: " + tarefas + "\n";
       }
 
       public void setId_notificacao(String id_notificacao) {

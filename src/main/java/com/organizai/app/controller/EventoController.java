@@ -91,6 +91,10 @@ public class EventoController {
             return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o evento não existe
         }
 
+
+        // Exclua todas as tarefas associadas a este evento
+        tarefaService.deleteAllTarefasByEvento(evento);
+
         eventoService.delete(id);
 
         // Retorne o status 204 No Content (sem conteúdo) para indicar a exclusão bem-sucedida
