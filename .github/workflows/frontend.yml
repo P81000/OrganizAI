@@ -2,11 +2,11 @@ name: Frontend Vue CI/CD Pipeline
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ "develop" ]
     paths:
       - 'src/frontend-src/**'
   pull_request:
-    branches: [ develop ]
+    branches: [ "develop" ]
     paths:
       - 'src/frontend-src/**'
 
