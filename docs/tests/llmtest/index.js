@@ -25,7 +25,11 @@ async function runModel() {
     }
   );
 
-  const jsonString = JSON.stringify(output, null, 2);
+  // Junta o array em uma única string
+  const singleLineString = output.join('');
+
+// Serializa a string para JSON sem espaços extras
+  const jsonString = JSON.stringify(singleLineString);
 
   // Escrevendo para um arquivo chamado 'output.json'
   fs.writeFile('output.json', jsonString, (err) => {
