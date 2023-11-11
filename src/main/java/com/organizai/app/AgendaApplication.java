@@ -16,5 +16,6 @@ public class AgendaApplication {
 		EventoRepository eventoRepository = context.getBean(EventoRepository.class);
 		UsuarioRepository usuarioRepository = context.getBean(UsuarioRepository.class);
 		TarefaRepository tarefaRepository = context.getBean(TarefaRepository.class);
+		//WeatherRepository = context.getBean(WeatherRepository.class);
 	}
 }

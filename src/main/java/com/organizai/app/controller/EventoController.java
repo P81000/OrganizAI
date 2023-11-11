@@ -2,6 +2,7 @@ package com.organizai.app.controller;
 
 import java.util.List;
 
+import com.organizai.app.model.Geocode.Geocode;
 import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.tarefa.TarefaDTO;
 import com.organizai.app.model.tarefa.service.TarefaService;
@@ -9,7 +10,9 @@ import com.organizai.app.model.evento.EventoDTO;
 import com.organizai.app.model.evento.service.EventoService;
 import com.organizai.app.model.usuario.Usuario;
 import com.organizai.app.model.usuario.service.UsuarioService;
+import com.organizai.app.model.weather.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +28,16 @@ public class EventoController {
     private final EventoService eventoService;
     private final UsuarioService usuarioService;
     private final TarefaService tarefaService;
+    private final WeatherService weatherService;
+    @Value("${weather.api.key}")
+    private String _geocodeApiKey;
 
     @Autowired
-    public EventoController(EventoService eventoService, UsuarioService usuarioService, TarefaService tarefaService) {
+    public EventoController(EventoService eventoService, UsuarioService usuarioService, TarefaService tarefaService, WeatherService weatherService) {
         this.eventoService = eventoService;
         this.usuarioService = usuarioService;
         this.tarefaService = tarefaService;
+        this.weatherService = weatherService;
     }
 
     @GetMapping
@@ -44,12 +51,20 @@ public class EventoController {
 
     @PostMapping("/{email}")
     public ResponseEntity<Evento> createEvento(@PathVariable String email, @RequestBody Evento novoEvento) {
-
         // Verificar se é válido
         if (novoEvento == null) {
             return ResponseEntity.badRequest().build();
         }
-        //System.out.println("evento: " + novoEvento.getCorpo());
+        Geocode geocodeParams = weatherService.getGeoCodeObject(novoEvento.getLocalizacao());
+        //fazer a chamada pra api de tempo
+        //salvar as informações de tempo atreladas ao evento correspondente
+
+        if(geocodeParams == null)
+            System.out.println("Não foi possível resgatar a localizaççao do usuário");
+
+        if (geocodeParams != null) {
+            System.out.println(geocodeParams.getLocalnames());
+        }
 
         Usuario usuario = usuarioService.findByEmail(email);
         if (usuario == null) {
