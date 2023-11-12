@@ -4,7 +4,7 @@ body {
     background-color: #98C1D9;
     display: flex;
     overflow-x: hidden;
-    font-family: Roboto;
+    font-family: "Roboto";
     cursor: default;
     user-select: none;
 }

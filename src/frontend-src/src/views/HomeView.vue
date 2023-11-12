@@ -1,11 +1,14 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from "vue";
 
-
 const showFixedHeader = ref(false);
 
 const handleScroll = () => {
-  showFixedHeader.value = window.scrollY > 100;
+  if (window.scrollY > 100) {
+    showFixedHeader.value = true;
+  } else {
+    showFixedHeader.value = false;
+  }
 };
 
 onMounted(() => {
@@ -16,6 +19,7 @@ onBeforeUnmount(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 </script>
+
 <template>
   <div class="home">
     <header class="header">
@@ -135,8 +139,6 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-
-
 <style scoped>
 .home {
   display: flex;
@@ -147,7 +149,7 @@ onBeforeUnmount(() => {
 /* header start */
 .header {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   width: 100vw;
   height: 45vh;
