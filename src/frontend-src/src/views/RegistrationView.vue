@@ -1,3 +1,20 @@
+<script setup>
+import router from "@/router";
+import { ref } from "vue";
+const username = ref("");
+const email = ref("");
+const password = ref("");
+const showSignUp = ref(false);
+const submitForm = () => {
+  if (username.value && email.value && password.value) {
+    redirectMainPage();
+  }
+};
+const redirectMainPage = () => {
+  router.push("/main-page");
+};
+</script>
+
 <template>
   <div class="home">
     <header class="header">
@@ -9,26 +26,34 @@
     </header>
     <main class="main">
       <article>
-        <div class="container" :class="{ 'sign-up-active': signUp }">
+        <div class="container" :class="{ 'sign-up-active': showSignUp }">
           <div class="overlay-container">
             <div class="overlay">
               <div class="overlay-left">
                 <h2 class="title">Welcome Back!</h2>
                 <p>What a pleasure see you again! Sign In with your account</p>
-                <button class="invert" id="signIn" @click="signUp = !signUp">
+                <button
+                  class="invert"
+                  id="signIn"
+                  @click="showSignUp = !showSignUp"
+                >
                   Sign In
                 </button>
               </div>
               <div class="overlay-right">
                 <h2 class="title">Hello Friend! Do I know you?</h2>
                 <p>If is your first time here, don't be shy SIGN UP!</p>
-                <button class="invert" id="signUp" @click="signUp = !signUp">
+                <button
+                  class="invert"
+                  id="showSignUp"
+                  @click="showSignUp = !showSignUp"
+                >
                   Sign Up
                 </button>
               </div>
             </div>
           </div>
-          <form class="sign-up" action="#">
+          <form class="sign-up" @submit.prevent="submitForm()">
             <h2 class="account">Create your account</h2>
             <div class="social-login">
               <a href="#" class="social">
@@ -56,10 +81,15 @@
               </a>
             </div>
             <p class="option">or use your email for registration</p>
-            <input type="text" placeholder="Name" required />
-            <input type="email" placeholder="Email" required />
-            <input type="password" placeholder="Password" required />
-            <button class="normal">Sign Up</button>
+            <input v-model="username" type="text" placeholder="Name" required />
+            <input v-model="email" type="email" placeholder="Email" required />
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              required
+            />
+            <button class="normal" type="submit">SignUp</button>
           </form>
           <form class="sign-in" action="#">
             <h2 class="account">Sign In</h2>
@@ -100,23 +130,18 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-const signUp = ref(false);
-</script>
-
 <style scoped>
 .home {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
 }
 .header {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   width: 100vw;
   height: 10vh;

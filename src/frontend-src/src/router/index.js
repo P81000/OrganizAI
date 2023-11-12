@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import RegistrationView from "../views/RegistrationView.vue";
 
 const routes = [
   {
@@ -16,8 +17,13 @@ const routes = [
   {
     path: "/registration",
     name: "registration",
+    component: RegistrationView,
+  },
+  {
+    path: "/main-page",
+    name: "main-page",
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/RegistrationView.vue"),
+      import(/* webpackChunkName: "main-page" */ "../views/MainView.vue"),
   },
   {
     path: "/:pathMatch(.*)*",

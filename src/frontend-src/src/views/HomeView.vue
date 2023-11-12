@@ -1,3 +1,25 @@
+<script setup>
+import { onBeforeUnmount, onMounted, ref } from "vue";
+
+const showFixedHeader = ref(false);
+
+const handleScroll = () => {
+  if (window.scrollY > 100) {
+    showFixedHeader.value = true;
+  } else {
+    showFixedHeader.value = false;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+</script>
+
 <template>
   <div class="home">
     <header class="header">
@@ -117,28 +139,6 @@
   </div>
 </template>
 
-<script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
-
-const showFixedHeader = ref(false);
-
-const handleScroll = () => {
-  if (window.scrollY > 100) {
-    showFixedHeader.value = true;
-  } else {
-    showFixedHeader.value = false;
-  }
-};
-
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
-</script>
-
 <style scoped>
 .home {
   display: flex;
@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
 /* header start */
 .header {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   width: 100vw;
   height: 45vh;
@@ -403,7 +403,7 @@ li {
 .footer {
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
   width: 100vw;
   height: 15vh;
 }

@@ -21,6 +21,7 @@ public class EventoController {
 
             //Eventos list
             List<Evento> Eventos = eventoRepository.findAll();
+            return "agenda";
             return Eventos;
       }
 
