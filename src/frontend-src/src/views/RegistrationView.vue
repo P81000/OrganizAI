@@ -1,65 +1,20 @@
-
 <script setup>
-import { ref } from "vue";
-import axios from "axios";
 import router from "@/router";
-import Router from "@/router";
+import { ref } from "vue";
+const username = ref("");
 const email = ref("");
 const password = ref("");
-const passwordCadastro = ref("");
-const emailCadastro = ref("");
-const name =ref("");
-const signUp = ref(false);
-const showError = ref(false);
-
-const signIn = () => {
-  console.log("SING");
-  // Aqui você faz a requisição POST para o endpoint de login
-  axios.post('http://localhost:8080/usuario/login', {
-    // Aqui você pode passar os dados de login, como email e senha
-    email: email.value,
-    password: password.value
-  })
-      .then(response => {
-        console.log(response);
-        // Lidar com a resposta do servidor, por exemplo, redirecionar o usuário
-        router.push('/calendario');
-
-        // para a página de eventos se o login for bem-sucedido
-      })
-      .catch(error => {
-        showError.value = true; // Exibe a mensagem de erro
-        console.error('Erro ao fazer login:', error);
-      });
+const showSignUp = ref(false);
+const submitForm = () => {
+  if (username.value && email.value && password.value) {
+    redirectMainPage();
+  }
 };
-const cadastro = () => {
-  console.log("cadastro");
-
-  // Aqui você faz a requisição POST para o endpoint de login
-  axios.post('http://localhost:8080/usuario/cadastro', {
-    // Aqui você pode passar os dados de login, como email e senha
-    username: name.value,
-    email: email.value,
-    password: password.value
-  })
-      .then(response => {
-        console.log(response);
-        // Lidar com a resposta do servidor, por exemplo, redirecionar o usuário
-        // para a página de eventos se o login for bem-sucedido
-
-        if (response.status === 200) {
-          router.push('/calendario'); // Certifique-se de importar 'router' caso necessário
-        } else {
-          console.log("Entrei");
-         // showError.value = true; // Exibe a mensagem de erro
-        }
-      })
-      .catch(error => {
-        //showError.value = true; // Exibe a mensagem de erro
-        console.error('Erro ao fazer cadastro:', error);
-      });
+const redirectMainPage = () => {
+  router.push("/main-page");
 };
 </script>
+
 <template>
   <div class="home">
     <header class="header">
@@ -71,26 +26,34 @@ const cadastro = () => {
     </header>
     <main class="main">
       <article>
-        <div class="container" :class="{ 'sign-up-active': signUp }">
+        <div class="container" :class="{ 'sign-up-active': showSignUp }">
           <div class="overlay-container">
             <div class="overlay">
               <div class="overlay-left">
                 <h2 class="title">Welcome Back!</h2>
                 <p>What a pleasure see you again! Sign In with your account</p>
-                <button class="invert" id="signIn" @click=signIn()>
+                <button
+                  class="invert"
+                  id="signIn"
+                  @click="showSignUp = !showSignUp"
+                >
                   Sign In
                 </button>
               </div>
               <div class="overlay-right">
                 <h2 class="title">Hello Friend! Do I know you?</h2>
                 <p>If is your first time here, don't be shy SIGN UP!</p>
-                <button class="invert" id="signUp" @click="signUp = !signUp">
+                <button
+                  class="invert"
+                  id="showSignUp"
+                  @click="showSignUp = !showSignUp"
+                >
                   Sign Up
                 </button>
               </div>
             </div>
           </div>
-          <form class="sign-up" action="#">
+          <form class="sign-up" @submit.prevent="submitForm()">
             <h2 class="account">Create your account</h2>
             <div class="social-login">
               <a href="#" class="social">
@@ -118,10 +81,15 @@ const cadastro = () => {
               </a>
             </div>
             <p class="option">or use your email for registration</p>
-            <input type="text" placeholder="Name" v-model="name" required />
-            <input type="email" placeholder="EmailCadastro" v-model="emailCadastro" required />
-            <input type="password" placeholder="PasswordCadastro" v-model="passwordCadastro" required />
-            <button class="normal" @click="cadastro">Sign Up</button>
+            <input v-model="username" type="text" placeholder="Name" required />
+            <input v-model="email" type="email" placeholder="Email" required />
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              required
+            />
+            <button class="normal" type="submit">SignUp</button>
           </form>
           <form class="sign-in" action="#">
             <h2 class="account">Sign In</h2>
@@ -151,11 +119,10 @@ const cadastro = () => {
               </a>
             </div>
             <p class="option">or use your account</p>
-            <input type="email" placeholder="Email" v-model="email" />
-            <input type="password" placeholder="Password" v-model="password"/>
+            <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Password" />
             <a href="#">Forgot your password?</a>
-            <button class="normal"  @click="signIn">Sign In</button>
-            <p v-if="showError" class="error-text">Credenciais Invalidas</p>
+            <button class="normal">Sign In</button>
           </form>
         </div>
       </article>
@@ -163,22 +130,18 @@ const cadastro = () => {
   </div>
 </template>
 
-
-
-
-
 <style scoped>
 .home {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
 }
 .header {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   width: 100vw;
   height: 10vh;
@@ -379,7 +342,7 @@ input {
   border-radius: 5rem;
   border-bottom: 1px solid #ee6c4d;
   overflow: hidden;
-  font-family: "Roboto",serif;
+  font-family: "Roboto";
   font-weight: 500;
   font-size: 120%;
   text-align: center;
@@ -419,10 +382,5 @@ a {
 }
 .sign-up-active .overlay {
   transform: translateX(50%);
-}
-.error-text {
-  color: red;
-  font-size: 1rem;
-  margin-top: 10px;
 }
 </style>
