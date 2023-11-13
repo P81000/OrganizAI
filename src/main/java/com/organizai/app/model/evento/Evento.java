@@ -3,6 +3,7 @@ package com.organizai.app.model.evento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.usuario.Usuario;
+import com.organizai.app.model.weather.WeatherInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,10 @@ public class Evento {
       @JoinColumn(name="id_usuario")
       private Usuario _usuario;
       private String id_notificacao;
-      private String id_info_clima;
+
+      @OneToOne
+      @JoinColumn(name="weather_info_id")
+      private WeatherInfo infoClima;
       private String id_info_trajeto;
 
       @Getter
@@ -80,8 +84,8 @@ public class Evento {
             this.id_notificacao = id_notificacao;
       }
 
-      public void setId_info_clima(String id_info_clima) {
-            this.id_info_clima = id_info_clima;
+      public void set_info_clima(WeatherInfo info_clima) {
+            this.infoClima = info_clima;
       }
 
       public void setId_info_trajeto(String id_info_trajeto) {
