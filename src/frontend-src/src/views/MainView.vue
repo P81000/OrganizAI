@@ -74,9 +74,9 @@ const setActiveComponent = (component) => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 0vw;
+  width: 0;
   height: 100vh;
-  background-color: #3d5a80;
+  background: linear-gradient(to top left, #3d5a80, #293241);
   transition: width 0.5s;
   z-index: 100;
 }

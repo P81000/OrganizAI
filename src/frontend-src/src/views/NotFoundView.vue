@@ -1,7 +1,7 @@
 <template>
   <div class="not-found">
     <div class="rectangle">
-      <img class="logo" src="../assets/logo.png" />
+      <img class="logo" alt="logo" src="../assets/logo.png" />
     </div>
     <h2>Oops! 😮</h2>
     <h2>404 - Page not found</h2>

@@ -4,24 +4,24 @@ body {
     background-color: #98C1D9;
     display: flex;
     overflow-x: hidden;
-    font-family: "Roboto";
+    font-family: Roboto;
     cursor: default;
     user-select: none;
 }
 
 /* Define as cores da barra de rolagem vertical */
 ::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #E0FBFC;
+    background-color: #293241;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #293241;
-    opacity: 10%;
+    background-color: #98C1D9;
+    opacity: 1%;
 }
 
 .hide-scrollbar {

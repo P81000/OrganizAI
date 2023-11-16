@@ -216,8 +216,7 @@ onBeforeUnmount(() => {
   margin: 1%;
   background-color: #e0fbfc;
   border-radius: 10rem;
-  border: 1px solid;
-  border-color: #000000;
+  border: 1px solid #000000;
   cursor: pointer;
   text-decoration: none;
 }
@@ -280,7 +279,7 @@ onBeforeUnmount(() => {
   font-size: 10vh;
   color: #e0fbfc;
   text-align: center;
-  text-shadow: 0px 8px 2px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 8px 2px rgba(0, 0, 0, 0.6);
   padding-top: 3%;
   cursor: default;
 }
@@ -333,7 +332,7 @@ onBeforeUnmount(() => {
   text-decoration: none;
 }
 .text-get-started {
-  font-family: "Roboto";
+  font-family: Roboto;
   font-weight: 800;
   font-size: 250%;
   color: #293241;
@@ -440,7 +439,7 @@ a {
 }
 .text-util {
   color: #e0fbfc;
-  font-family: "Roboto";
+  font-family: Roboto;
   font-size: 1rem;
 }
 .text-util:hover {
@@ -449,7 +448,7 @@ a {
 }
 .footer-© {
   color: #e0fbfc;
-  font-family: "Roboto";
+  font-family: Roboto;
   margin-top: 1%;
 }
 </style>
