@@ -4,11 +4,7 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 const showFixedHeader = ref(false);
 
 const handleScroll = () => {
-  if (window.scrollY > 100) {
-    showFixedHeader.value = true;
-  } else {
-    showFixedHeader.value = false;
-  }
+  showFixedHeader.value = window.scrollY > 100;
 };
 
 onMounted(() => {
@@ -221,7 +217,7 @@ onBeforeUnmount(() => {
   text-decoration: none;
 }
 .text-signin {
-  font-family: "Roboto";
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   color: #293241;
   font-size: 130%;
@@ -238,13 +234,12 @@ onBeforeUnmount(() => {
   margin: 1%;
   background-color: #3d5a80;
   border-radius: 10rem;
-  border: 1px solid;
-  border-color: #000000;
+  border: 1px solid #000000;
   cursor: pointer;
   text-decoration: none;
 }
 .text-signup {
-  font-family: "Roboto";
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   color: #e0fbfc;
   font-size: 130%;
@@ -274,7 +269,7 @@ onBeforeUnmount(() => {
   z-index: 2;
 }
 .Welcome {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 900;
   font-size: 10vh;
   color: #e0fbfc;
@@ -285,7 +280,7 @@ onBeforeUnmount(() => {
 }
 .welcome-name {
   display: block;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 900;
   font-size: 25vh;
   color: #e0fbfc;
@@ -311,7 +306,7 @@ onBeforeUnmount(() => {
   opacity: 0.5;
 }
 .briefing {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 40px;
   color: #293241;
@@ -326,13 +321,12 @@ onBeforeUnmount(() => {
   height: 8vh;
   background-color: #ee6c4d;
   border-radius: 10rem;
-  border: 1px solid;
-  border-color: #000000;
+  border: 1px solid #000000;
   cursor: pointer;
   text-decoration: none;
 }
 .text-get-started {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 250%;
   color: #293241;
@@ -363,7 +357,7 @@ onBeforeUnmount(() => {
 .summary {
   width: 480px;
   height: 265px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 300;
   font-size: 32px;
   font-style: normal;
@@ -377,7 +371,7 @@ onBeforeUnmount(() => {
 ol {
   width: 480px;
   height: 269px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 300;
   font-size: 32px;
   font-style: normal;
@@ -402,7 +396,7 @@ li {
 .footer {
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
   width: 100vw;
   height: 15vh;
 }
@@ -420,7 +414,7 @@ li {
   justify-content: space-between;
   align-items: center;
   width: 10%;
-  margin-top: 1%;
+  margin-top: 2%;
   margin-bottom: 0;
 }
 .social-media:hover {
@@ -439,7 +433,7 @@ a {
 }
 .text-util {
   color: #e0fbfc;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 1rem;
 }
 .text-util:hover {
@@ -448,7 +442,7 @@ a {
 }
 .footer-© {
   color: #e0fbfc;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   margin-top: 1%;
 }
 </style>

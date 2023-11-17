@@ -26,7 +26,7 @@ const proximoDia = () => {
 const atualizarDias = (novaData) => {
   dataAux.value = new Date(novaData);
   dias.value = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     const dia = new Date(novaData);
     dia.setDate(novaData.getDate() + i);
     const formatoData = dia.toDateString().substring(0, 10);
@@ -65,8 +65,18 @@ const showModal = () => {
   showEvent.value = !showEvent.value;
 };
 
+const handleKeyDown = (event) => {
+  if (event.key === "ArrowLeft") {
+    anteriorDia();
+  }
+  if (event.key === "ArrowRight") {
+    proximoDia();
+  }
+};
+
 onMounted(async () => {
   atualizarDias(dataAtual.value);
+  window.addEventListener("keydown", handleKeyDown);
   try {
     const response = await EventoService.getEventos();
     for (const i of response.data){
@@ -82,7 +92,7 @@ onMounted(async () => {
 <template>
   <div class="calendar">
     <header class="header">
-      <div class="arrow-lines">
+      <div class="arrow-lines" title="Press or use your keyboard arrows">
         <span @click="anteriorDia" class="arrow left"></span>
         <h3
           class="selectedDay"
@@ -185,7 +195,7 @@ onMounted(async () => {
   filter: drop-shadow(0px 1px 1px rgba(238, 108, 77, 0.8));
 }
 .selectedDay {
-  font-family: "Roboto";
+  font-family: Roboto,serif;
   font-weight: 800;
   color: #e0fbfc;
   font-size: 150%;
@@ -194,24 +204,25 @@ onMounted(async () => {
   margin-right: 1vw;
   letter-spacing: 0;
   line-height: normal;
-  text-shadow: 1px 1px 0px #293241;
+  text-shadow: 1px 1px 0 #293241;
 }
 .agenda {
   display: flex;
   justify-content: space-around;
   width: 100%;
   height: 100%;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 .dayContainer {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: flex-start;
   width: 20%;
   background: #e0fbfc;
   border-right: 1px solid #3d5a80;
   border-left: 1px solid #3d5a80;
-  overflow: auto;
 }
 .currentContainer {
   border-right: 2px solid #ee6c4d;
@@ -221,7 +232,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Roboto";
+  font-family: Roboto, serif;
   font-weight: 800;
   color: #3d5a80;
   font-size: 200%;
@@ -261,7 +272,7 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 40vw; /* ajuste conforme necessário */
+  width: 40vw;
   height: 80vh;
   background-color: #f0f0f0;
   z-index: 1000;

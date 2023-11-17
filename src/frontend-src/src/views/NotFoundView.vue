@@ -39,18 +39,18 @@
   height: 10vh;
 }
 h1 {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 100px;
   margin: 0;
 }
 h2 {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 36px;
   margin-top: 10px;
   color: #777;
 }
 p {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   margin-top: 20px;
 }
 router-link {

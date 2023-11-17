@@ -233,21 +233,21 @@ const redirectMainPage = () => {
   transition: transform 0.5s ease-in-out;
 }
 .title {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 3rem;
   color: #e0fbfc;
   margin: 0;
 }
 .account {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 3rem;
   color: #293241;
   margin: 0;
 }
 p {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 100;
   font-size: 1.5rem;
   color: #e0fbfc;
@@ -265,7 +265,7 @@ button {
   border-radius: 10rem;
   border: 1px solid;
   cursor: pointer;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 200%;
   color: #e0fbfc;
@@ -342,7 +342,7 @@ input {
   border-radius: 5rem;
   border-bottom: 1px solid #ee6c4d;
   overflow: hidden;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 500;
   font-size: 120%;
   text-align: center;
