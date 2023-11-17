@@ -1,7 +1,7 @@
 <template>
   <div class="not-found">
     <div class="rectangle">
-      <img class="logo" src="../assets/logo.png" />
+      <img class="logo" alt="logo" src="../assets/logo.png" />
     </div>
     <h2>Oops! 😮</h2>
     <h2>404 - Page not found</h2>
@@ -39,18 +39,18 @@
   height: 10vh;
 }
 h1 {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 100px;
   margin: 0;
 }
 h2 {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 36px;
   margin-top: 10px;
   color: #777;
 }
 p {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   margin-top: 20px;
 }
 router-link {

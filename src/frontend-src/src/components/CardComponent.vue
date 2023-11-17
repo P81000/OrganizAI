@@ -3,31 +3,29 @@ import { defineProps, ref } from "vue";
 import EventComponent from "./EventComponent.vue";
 
 const contentBlurred = ref(false);
-const event = ref(EventComponent);
 
 defineProps({
-  contador: {
-    type: Number,
-  },
-  dia: {
-    type: String,
+  event: {
+    type: Object,
   },
 });
-const detalhesVisiveis = ref(false);
+
+const showEvent = ref(false);
 
 const openDetails = () => {
-  detalhesVisiveis.value = !detalhesVisiveis.value;
-  contentBlurred.value = detalhesVisiveis.value;
+  showEvent.value = !showEvent.value;
+  contentBlurred.value = showEvent.value;
 };
 </script>
 
 <template>
   <div class="evento-container" @click="openDetails">
-    <p>Evento {{ contador }} do {{ dia }}</p>
-    <div v-if="detalhesVisiveis" class="detalhes">
+    <p>{{ event.titulo }}</p>
+    <p>{{ event.localizacao }}</p>
+    <div v-if="showEvent" class="detalhes">
       <div class="showEvent">
         <div class="event-content">
-          <component :is="event"></component>
+          <EventComponent :is="event"></EventComponent>
         </div>
       </div>
     </div>
@@ -53,7 +51,7 @@ const openDetails = () => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 40vw; /* ajuste conforme necessário */
+  width: 40vw;
   height: 80vh;
   background-color: #f0f0f0;
   z-index: 1000;

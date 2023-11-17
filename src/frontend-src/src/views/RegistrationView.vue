@@ -215,7 +215,7 @@ const redirectMainPage = () => {
   height: calc(50% + 30vh);
   text-align: center;
   transform: translateX(-20%);
-  transition: transform 0.5 ease-in-out;
+  transition: transform 0.5s ease-in-out;
 }
 .overlay-right {
   position: absolute;
@@ -230,24 +230,24 @@ const redirectMainPage = () => {
   height: calc(100% - 15vh);
   text-align: center;
   transform: translateX(0);
-  transition: transform 0.5 ease-in-out;
+  transition: transform 0.5s ease-in-out;
 }
 .title {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 3rem;
   color: #e0fbfc;
   margin: 0;
 }
 .account {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 3rem;
   color: #293241;
   margin: 0;
 }
 p {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 100;
   font-size: 1.5rem;
   color: #e0fbfc;
@@ -265,7 +265,7 @@ button {
   border-radius: 10rem;
   border: 1px solid;
   cursor: pointer;
-  font-family: "Roboto";
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   font-size: 200%;
   color: #e0fbfc;
@@ -305,8 +305,8 @@ button.invert {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  background-color: #e0fbfc; /* Cor do círculo branco */
-  margin: 2vh; /* Espaçamento entre os ícones */
+  background-color: #e0fbfc;
+  margin: 2vh;
 }
 .social-icons:hover {
   filter: drop-shadow(2px 2px 2px #ee6c4d);
@@ -338,11 +338,11 @@ form {
 input {
   border: none;
   padding: 2% 10%;
-  width: calc(100% -10px);
+  width: 20vw;
   border-radius: 5rem;
   border-bottom: 1px solid #ee6c4d;
   overflow: hidden;
-  font-family: "Roboto";
+  font-family: Roboto, sans-serif;
   font-weight: 500;
   font-size: 120%;
   text-align: center;

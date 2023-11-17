@@ -26,13 +26,6 @@ const routes = [
       import(/* webpackChunkName: "main-page" */ "../views/MainView.vue"),
   },
   {
-    path: "/calendario",
-    name: "calendario",
-    component: () =>
-        import(/* webpackChunkName: "login" */ "../views/CalendarView.vue"),
-  },
-
-  {
     path: "/:pathMatch(.*)*",
     name: "not-found",
     component: () =>

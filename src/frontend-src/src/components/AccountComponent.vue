@@ -15,7 +15,7 @@ const print = () => {
 
 <style scoped>
 p {
-  font-family: "Roboto";
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   color: #293241;
   font-size: 130%;

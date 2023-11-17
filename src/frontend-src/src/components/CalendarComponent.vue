@@ -1,12 +1,15 @@
-<!-- TODO: refatorar lógica do dia anterior e proximo dia -->
 <!-- TODO: refatorar cartao de evento e evento -->
 <script setup>
 import { onMounted, ref } from "vue";
 import Card from "./CardComponent.vue";
+import Event from "./EventComponent.vue";
+import EventoService from '../service/EventoService.js';
+
 const dataAtual = ref(new Date());
 const dataAux = ref(new Date());
 const dias = ref([]);
-const eventos = ref({});
+const events = ref([]);
+const showEvent = ref(false);
 
 const anteriorDia = () => {
   const novaData = new Date(dataAux.value);
@@ -21,41 +24,83 @@ const proximoDia = () => {
 };
 
 const atualizarDias = (novaData) => {
-  dataAux.value = new Date(novaData); // Atualiza a data atual
+  dataAux.value = new Date(novaData);
   dias.value = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     const dia = new Date(novaData);
     dia.setDate(novaData.getDate() + i);
     const formatoData = dia.toDateString().substring(0, 10);
-    dias.value.push(formatoData);
-
-    eventos.value[formatoData] = [];
+    dias.value.push({
+      dia: dia.getDate(),
+      mes: dia.getMonth() + 1,
+      ano: dia.getFullYear(),
+      formatData: formatoData,
+    });
   }
 };
 
 const isCurrentDay = (dia) => {
-  const formatoData = dataAtual.value.toDateString().substring(0, 10);
-  return dia === formatoData;
+  const currentDay = dataAtual.value.getDate();
+  const currentMonth = dataAtual.value.getMonth() + 1;
+  const currentYear = dataAtual.value.getFullYear();
+
+  return (
+      parseInt(dia.dia, 10) === currentDay &&
+      parseInt(dia.mes, 10) === currentMonth &&
+      parseInt(dia.ano, 10) === currentYear
+  );
 };
 
-const addEvent = (dia) => {
-  eventos.value[dia].push({});
+const isSameDate = (dia, event) => {
+  const [eventYear, eventMonth, eventDay] = event.split("T")[0].split("-");
+  return (
+      parseInt(eventDay, 10) === dia.dia &&
+      parseInt(eventMonth, 10) === dia.mes &&
+      parseInt(eventYear, 10) === dia.ano
+  );
 };
 
-onMounted(() => {
+const showModal = () => {
+  console.log(showEvent.value);
+  showEvent.value = !showEvent.value;
+};
+
+const handleKeyDown = (event) => {
+  if (event.key === "ArrowLeft") {
+    anteriorDia();
+  }
+  if (event.key === "ArrowRight") {
+    proximoDia();
+  }
+};
+
+onMounted(async () => {
   atualizarDias(dataAtual.value);
+  window.addEventListener("keydown", handleKeyDown);
+  try {
+    const response = await EventoService.getEventos();
+    for (const i of response.data){
+      console.log(i);
+      events.value.push(i);
+    }
+  } catch(error) {
+    console.log("Erro getEventos: ", error);
+  }
 });
 </script>
 
 <template>
   <div class="calendar">
     <header class="header">
-      <div class="arrow-lines">
+      <div class="arrow-lines" title="Press or use your keyboard arrows">
         <span @click="anteriorDia" class="arrow left"></span>
         <h3
           class="selectedDay"
           :class="{
-            currentDay: isCurrentDay(dataAux.toDateString().substring(0, 10)),
+            currentDay: isCurrentDay({ 'dia': dataAux.getDate(),
+                                           'mes': dataAux.getMonth() + 1,
+                                           'ano': dataAux.getFullYear()
+            }),
           }"
         >
           {{ dataAux.toDateString().substring(0, 15) }}
@@ -76,22 +121,23 @@ onMounted(() => {
             text: isCurrentDay(dia),
           }"
         >
-          {{ dia }}
+          {{ dia.formatData }}
           <img
             class="addEventIcon"
             src="../assets/add.png"
             alt="Add-Event-Icon"
             title="Add a new event"
-            @click="addEvent(dia)"
+            @click="showModal()"
           />
         </h3>
-        <Card
-          v-for="(evento, eventoIndex) in eventos[dia]"
-          :key="eventoIndex"
-          :contador="eventoIndex + 1"
-          :dia="dia"
-        />
+        <div v-for="event in events" :key="event.id">
+          <Card
+            v-if="isSameDate(dia, event.data_inicio)"
+            :event="event"
+          />
+        </div>
       </div>
+      <Event class="addEvent" v-if="showEvent" @close="showModal()"></Event>
     </div>
   </div>
 </template>
@@ -111,7 +157,7 @@ onMounted(() => {
   justify-content: center;
   width: 100%;
   height: 7vh;
-  background: #293241;
+  background: linear-gradient(to left, #3d5a80, #293241);
   margin-bottom: 0;
 }
 .arrow-lines {
@@ -149,7 +195,7 @@ onMounted(() => {
   filter: drop-shadow(0px 1px 1px rgba(238, 108, 77, 0.8));
 }
 .selectedDay {
-  font-family: "Roboto";
+  font-family: Roboto,serif;
   font-weight: 800;
   color: #e0fbfc;
   font-size: 150%;
@@ -158,18 +204,20 @@ onMounted(() => {
   margin-right: 1vw;
   letter-spacing: 0;
   line-height: normal;
-  text-shadow: 1px 1px 0px #293241;
+  text-shadow: 1px 1px 0 #293241;
 }
 .agenda {
   display: flex;
   justify-content: space-around;
   width: 100%;
   height: 100%;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 .dayContainer {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
   justify-content: flex-start;
   width: 20%;
   background: #e0fbfc;
@@ -184,7 +232,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Roboto";
+  font-family: Roboto, serif;
   font-weight: 800;
   color: #3d5a80;
   font-size: 200%;
@@ -214,4 +262,20 @@ onMounted(() => {
   text-shadow: 1px 1px 1px #3d5a80;
   font-size: 270%;
 }
+
+.addEvent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 40vw;
+  height: 80vh;
+  background-color: #f0f0f0;
+  z-index: 1000;
+}
+
 </style>

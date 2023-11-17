@@ -74,9 +74,9 @@ const setActiveComponent = (component) => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 0vw;
+  width: 0;
   height: 100vh;
-  background-color: #3d5a80;
+  background: linear-gradient(to top left, #3d5a80, #293241);
   transition: width 0.5s;
   z-index: 100;
 }
@@ -112,7 +112,7 @@ const setActiveComponent = (component) => {
 }
 
 .hamburger-lines .line1 {
-  transform-origin: 0% 0%;
+  transform-origin: 0 0;
   transition: transform 0.4s ease-in-out;
 }
 
@@ -121,7 +121,7 @@ const setActiveComponent = (component) => {
 }
 
 .hamburger-lines .line3 {
-  transform-origin: 0% 100%;
+  transform-origin: 0 100%;
   transition: transform 0.4s ease-in-out;
 }
 input[type="checkbox"]:checked ~ .hamburger-lines .line1 {
@@ -150,12 +150,11 @@ nav {
   margin: 10vh;
 }
 a {
-  font-family: "Roboto";
+  font-family: Roboto, sans-serif;
   font-weight: 800;
   color: #e0fbfc;
   font-size: 100%;
   text-align: center;
-  letter-spacing: 100%;
   line-height: normal;
   cursor: pointer;
   transition: 0.5s;
