@@ -84,9 +84,9 @@ public class Evento {
             this.id_notificacao = id_notificacao;
       }
 
-//      public void set_info_clima(WeatherInfo info_clima) {
-//            this.infoClima = info_clima;
-//      }
+      public void set_info_clima(WeatherInfo info_clima) {
+            this.infoClima = info_clima;
+      }
 
       public void setId_info_trajeto(String id_info_trajeto) {
             this.id_info_trajeto = id_info_trajeto;

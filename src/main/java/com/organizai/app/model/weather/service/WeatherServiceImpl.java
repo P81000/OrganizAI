@@ -26,11 +26,11 @@ public class WeatherServiceImpl implements WeatherService
 
     @Value("${weather.api.key}")
     private String openWeatherMapApiKey;
-    //private final WeatherRepository _weatherRepository;
-//    @Autowired
-//    public WeatherServiceImpl(WeatherRepository weatherRepository){
-//        this._weatherRepository = weatherRepository;
-//    }
+    private final WeatherRepository _weatherRepository;
+    @Autowired
+    public WeatherServiceImpl(WeatherRepository weatherRepository){
+        this._weatherRepository = weatherRepository;
+    }
    // @Override
     public WeatherInfo getWeatherJson(double latitude, double longitude) {
         String apiUrl = String.format("https://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&exclude=hourly,minutely&appid=%s",
@@ -60,8 +60,7 @@ public class WeatherServiceImpl implements WeatherService
 
      @Override
      public WeatherInfo SaveWeatherInfo(WeatherInfo weatherInfo) {
-         //this._weatherRepository.save(weatherInfo);
-         return null;
+         return this._weatherRepository.save(weatherInfo);
      }
 
      @Override
@@ -90,7 +89,10 @@ public class WeatherServiceImpl implements WeatherService
                         weatherData.getWeather().get(0).get("description").asText()
                 );
                 //save weather info no repo
+                evento.set_info_clima(weatherInfo);
+                this.SaveWeatherInfo(weatherInfo);
                 System.out.println("Datas coincidem!!!");
+                return;
             }
         }
      }
@@ -119,10 +121,4 @@ public class WeatherServiceImpl implements WeatherService
 //       return _weatherRepository.GetWeatherByEventID(idEvento);
 //    }
 
-//    @Override
-//    public WeatherInfo SaveWeatherInfo(WeatherInfo weatherInfo) {
-//        System.out.println("Saving Weather info: " + weatherInfo.getMessage());
-//        WeatherInfo savedWeatherInfo = _weatherRepository.save(weatherInfo);
-//        return savedWeatherInfo;
-//    }
 }

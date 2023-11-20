@@ -74,11 +74,6 @@ public class EventoController {
             Geocode geocodeParams = apiManager.GetGeocodeCoordinates(novoEvento.getLocalizacao());
             WeatherApiResponse weatherApiResponse = apiManager.GetOpenWeather5DayForecast(geocodeParams.getLat(), geocodeParams.getLon());
             weatherService.processAndSaveWeatherInfo(weatherApiResponse, novoEvento);
-            //novoEvento.set_info_clima(weatherInfoJson);
-            //weatherInfoJson.setEvento(novoEvento);
-
-            //weatherService.SaveWeatherInfo(weatherInfoJson);
-            //salvar as informações de tempo atreladas ao evento correspondente
 
             System.out.println("Country: " + geocodeParams.getCountry());
         }
