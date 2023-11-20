@@ -87,7 +87,7 @@ public class WeatherServiceImpl implements WeatherService
                         weatherData.getMain().get("temp_max").asDouble(),
                         weatherData.getMain().get("temp_min").asDouble(),
                         weatherData.getMain().get("feels_like").asDouble(),
-                        weatherData.getWeather().get(2).asText()
+                        weatherData.getWeather().get(0).get("description").asText()
                 );
                 //save weather info no repo
                 System.out.println("Datas coincidem!!!");
