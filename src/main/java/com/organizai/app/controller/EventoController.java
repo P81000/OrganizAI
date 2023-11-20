@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.organizai.app.api.OpenWeatherApi;
 import com.organizai.app.model.Geocode.Geocode;
 import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.tarefa.TarefaDTO;
@@ -12,6 +13,7 @@ import com.organizai.app.model.evento.EventoDTO;
 import com.organizai.app.model.evento.service.EventoService;
 import com.organizai.app.model.usuario.Usuario;
 import com.organizai.app.model.usuario.service.UsuarioService;
+import com.organizai.app.model.weather.WeatherApiResponse;
 import com.organizai.app.model.weather.WeatherInfo;
 import com.organizai.app.model.weather.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.organizai.app.model.evento.Evento;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("/eventos")
@@ -34,6 +37,8 @@ public class EventoController {
     private final WeatherService weatherService;
     @Value("${weather.api.key}")
     private String _geocodeApiKey;
+
+    private OpenWeatherApi apiManager;
 
     @Autowired
     public EventoController(EventoService eventoService, UsuarioService usuarioService, TarefaService tarefaService, WeatherService weatherService) {
@@ -64,24 +69,19 @@ public class EventoController {
             return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o usuário não existe
         }
 
-        Geocode geocodeParams = weatherService.getGeoCodeObject(novoEvento.getLocalizacao());
-        //fazer a chamada pra api de tempo
-        String weatherInfoJson = weatherService.getWeatherJson(geocodeParams.getLat(), geocodeParams.getLon());
+        if(!novoEvento.getLocalizacao().isEmpty()){
+            this.apiManager = new OpenWeatherApi(_geocodeApiKey);
+            Geocode geocodeParams = apiManager.GetGeocodeCoordinates(novoEvento.getLocalizacao());
+            WeatherApiResponse weatherApiResponse = apiManager.GetOpenWeather5DayForecast(geocodeParams.getLat(), geocodeParams.getLon());
+            weatherService.processAndSaveWeatherInfo(weatherApiResponse, novoEvento);
+            //novoEvento.set_info_clima(weatherInfoJson);
+            //weatherInfoJson.setEvento(novoEvento);
 
-        System.out.println(weatherInfoJson);
+            //weatherService.SaveWeatherInfo(weatherInfoJson);
+            //salvar as informações de tempo atreladas ao evento correspondente
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        WeatherInfo weatherInfoDesearilized = objectMapper.readValue(weatherInfoJson, WeatherInfo.class);
-
-        System.out.println(weatherInfoDesearilized.getMessage());
-
-        novoEvento.set_info_clima(weatherInfoDesearilized);
-        weatherInfoDesearilized.setEvento(novoEvento);
-
-        weatherService.SaveWeatherInfo(weatherInfoDesearilized);
-        //salvar as informações de tempo atreladas ao evento correspondente
-
-        System.out.println(geocodeParams.getLocalnames().toString());
+            System.out.println("Country: " + geocodeParams.getCountry());
+        }
 
         Evento eventoSalvo = eventoService.saveEvento(novoEvento);
 

@@ -8,45 +8,39 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.List;
-
-@Getter
 @Entity
-@JsonIgnoreProperties
+@Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private int id;
 
     @OneToOne(mappedBy = "infoClima", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Evento evento;
 
-    private String cod;
-    private int message;
-
-    private long dt;
+    private double probDeChuva;
+    private int umidade;
+    private double tempMaxima;
+    private double tempMinima;
     private double temp;
-
-    private double temp_min;
-    private double temp_max;
-    private int humidity;
-
-    @JsonProperty("feels_like")
     private double sensacaoTermica;
+    private String descricao;
 
-    private String mainWeather;
-    private String description;
-    private int clouds; //porcentagem de nuvens no ceu
-    private double windSpeed;
-    private double visibility;
-    @JsonProperty("pop")
-    private double chanceChuva; //precipitação
-    private String cityName;
-    private String country;
-    private int population;
-    private int timezone;
+    public WeatherInfo(){
+
+    }
+    public WeatherInfo(Evento evento, double probDeChuva, int umidade, double temp, double tempMaxima, double tempMinima, double sensacaoTermica, String descricao) {
+        this.evento = evento;
+        this.probDeChuva = probDeChuva;
+        this.umidade = umidade;
+        this.temp = temp;
+        this.tempMaxima = tempMaxima - 273.15;
+        this.tempMinima = tempMinima - 273.15;
+        this.sensacaoTermica = sensacaoTermica - 273.15;
+        this.descricao = descricao;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -56,76 +50,28 @@ public class WeatherInfo {
         this.evento = evento;
     }
 
-    public void setCod(String cod) {
-        this.cod = cod;
+    public void setProbDeChuva(double probDeChuva) {
+        this.probDeChuva = probDeChuva;
     }
 
-    public void setMessage(int message) {
-        this.message = message;
+    public void setUmidade(int umidade) {
+        this.umidade = umidade;
     }
 
-    public void setDt(long dt) {
-        this.dt = dt;
+    public void setTempMaxima(double tempMaxima) {
+        this.tempMaxima = tempMaxima;
     }
 
-    public void setTemp(double temp) {
-        this.temp = temp;
-    }
-
-    public void setTemp_min(double temp_min) {
-        this.temp_min = temp_min;
-    }
-
-    public void setTemp_max(double temp_max) {
-        this.temp_max = temp_max;
-    }
-
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
+    public void setTempMinima(double tempMinima) {
+        this.tempMinima = tempMinima;
     }
 
     public void setSensacaoTermica(double sensacaoTermica) {
         this.sensacaoTermica = sensacaoTermica;
     }
 
-    public void setMainWeather(String mainWeather) {
-        this.mainWeather = mainWeather;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setClouds(int clouds) {
-        this.clouds = clouds;
-    }
-
-    public void setWindSpeed(double windSpeed) {
-        this.windSpeed = windSpeed;
-    }
-
-    public void setVisibility(double visibility) {
-        this.visibility = visibility;
-    }
-
-    public void setChanceChuva(double chanceChuva) {
-        this.chanceChuva = chanceChuva;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    public void setTimezone(int timezone) {
-        this.timezone = timezone;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }
 
