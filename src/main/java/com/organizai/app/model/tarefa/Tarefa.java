@@ -17,17 +17,11 @@ public class Tarefa {
     private int idTarefa;
     private String titulo;
     private String descricao;
-    private String horarioInicio;
-    private String horarioFim;
     private String status;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="id_evento")
     private Evento _evento;
-    /*private int idPrioridade;
-    private int idStatus;
-    private int idBoard;
-    private int idFeedback;*/
 
     public Evento get_evento() {
         return _evento;
@@ -41,8 +35,6 @@ public class Tarefa {
 
         return "Título: " + titulo + "\n" +
                 "Descrição: " + descricao + "\n" +
-                "Horário de Início: " + horarioInicio + "\n" +
-                "Horário de Término: " + horarioFim + "\n" +
                 "Status: " + status + "\n";
     }
 }

@@ -108,22 +108,26 @@ public class EventoController {
         List<TarefaDTO> tarefas = tarefaService.findAllTarefas();
         model.addAttribute("tarefas", tarefas);
 
-        return "logado"; // A confirmar
+        return "tarefa"; // A confirmar
     }
-    @PostMapping("/tarefas/{id}")
-    public ResponseEntity<Tarefa> createTarefa(@PathVariable int idEvento, @RequestBody Tarefa novaTarefa) {
+    @PostMapping("/tarefas/{id_evento}")
+    public ResponseEntity<Tarefa> createTarefa(@PathVariable String id_evento, @RequestBody Tarefa novaTarefa) {
 
         // Verificar se é válido
         if (novaTarefa == null) {
             return ResponseEntity.badRequest().build();
         }
-
-        EventoDTO evento = eventoService.findEventoById(idEvento);
+        if (id_evento == null || id_evento.equalsIgnoreCase("null")) {
+            return ResponseEntity.badRequest().build(); // Retorna um status 400 Bad Request se o id for nulo ou "null"
+        }
+        Integer id = Integer.parseInt(id_evento);
+        EventoDTO evento = eventoService.findEventoById(id);
         if (evento == null) {
             return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se a tarefa não existe
         }
 
         Tarefa tarefaSalva = tarefaService.saveTarefa(novaTarefa);
+        eventoService.addTarefaInEvento(id, novaTarefa);
 
         // Retornar a tarefa salva e o status 201 Created
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefaSalva);

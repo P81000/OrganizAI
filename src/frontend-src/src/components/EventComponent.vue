@@ -1,7 +1,7 @@
 <template>
-  <div id="cadastroTarefaForm">
-    <h2>Cadastro de Tarefa</h2>
-    <form id="tarefaForm" class="custom-login-form" @submit.prevent="submitTask">
+  <div id="cadastroEventoForm">
+    <h2>Cadastro de Evento</h2>
+    <form id="eventoForm" class="custom-login-form" @submit.prevent="submitEvento">
       <label for="titulo">Título:</label>
       <input type="text" v-model="form.titulo" class="custom-input" required><br>
 
@@ -26,10 +26,10 @@
       <label for="idInfoTrajeto">ID de Informação de Trajeto:</label>
       <input type="text" v-model="form.id_info_trajeto" class="custom-input"><br>
 
-      <button type="submit" class="custom-button">Salvar Tarefa</button>
+      <button type="submit" class="custom-button">Salvar Evento</button>
       <button type="button" class="custom-button" @close="$emit('close')">Fechar</button>
     </form>
-    <button @click="deleteTask()"></button>
+    <button @click="deleteEvento()"></button>
   </div>
 </template>
 
@@ -48,11 +48,11 @@ const form = ref({
   id_info_trajeto: ''
 });
 
-const submitTask = async () => {
+const submitEvento = async () => {
   console.log("Form Values Before Submission:", form);
 
-  // Implement the logic to send the task to the server
-  const tarefa = {
+  // Implement the logic to send the event to the server
+  const evento = {
     titulo: form.value.titulo,
     descricao: form.value.descricao,
     data_inicio: form.value.data_inicio,
@@ -63,10 +63,10 @@ const submitTask = async () => {
     id_info_trajeto: form.value.id_info_trajeto
   };
 
-  console.log("Tarefa Object:", tarefa)
+  console.log("Evento Object:", evento)
   try {
-    console.log(JSON.stringify(tarefa));
-    const response = await EventoService.setEventos(JSON.stringify(tarefa));
+    console.log(JSON.stringify(evento));
+    const response = await EventoService.setEventos(JSON.stringify(evento));
     if(response){
       alert("Created");
     } else {
@@ -87,7 +87,7 @@ const submitTask = async () => {
   form.id_info_trajeto = '';
 };
 
-const deleteTask = async () => {
+const deleteEvento = async () => {
   try {
     const response = await EventoService.deletEvento(7);
     if(response.ok) {

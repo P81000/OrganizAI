@@ -22,23 +22,13 @@ public class TarefaDTO {
     @JsonProperty("descricao")
     public String descricao;
 
-    @JsonProperty("horario_inicio")
-    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
-    public String horarioInicio;
-
-    @JsonProperty("horario_fim")
-    // @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
-    public String horarioFim;
-
     @JsonProperty("status")
     public String status;
 
-    public TarefaDTO(Integer id, String titulo, String descricao, String horarioInicio, String horarioFim, String status) {
+    public TarefaDTO(Integer id, String titulo, String descricao, String status) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
-        this.horarioInicio = horarioInicio;
-        this.horarioFim = horarioFim;
         this.status = status;
     }
 
@@ -51,8 +41,6 @@ public class TarefaDTO {
                     tarefa.getIdTarefa(),
                     tarefa.getTitulo(),
                     tarefa.getDescricao(),
-                    tarefa.getHorarioInicio(),
-                    tarefa.getHorarioFim(),
                     tarefa.getStatus()
             );
             tarefaDTOs.add(tarefaDTO);
@@ -70,8 +58,6 @@ public class TarefaDTO {
 
         return "Título: " + titulo + "\n" +
                 "Descrição: " + descricao + "\n" +
-                "Horário de Início: " + horarioInicio + "\n" +
-                "Horário de Término: " + horarioFim + "\n" +
                 "Status: " + status + "\n";
     }
 }
