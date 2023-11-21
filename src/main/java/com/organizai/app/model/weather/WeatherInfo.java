@@ -35,7 +35,7 @@ public class WeatherInfo {
         this.evento = evento;
         this.probDeChuva = probDeChuva;
         this.umidade = umidade;
-        this.temp = temp;
+        this.temp = temp - 273.15;
         this.tempMaxima = tempMaxima - 273.15;
         this.tempMinima = tempMinima - 273.15;
         this.sensacaoTermica = sensacaoTermica - 273.15;

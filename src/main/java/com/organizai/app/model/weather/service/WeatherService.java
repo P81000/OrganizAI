@@ -12,13 +12,9 @@ import java.text.ParseException;
 
 public interface WeatherService{
 
-    public WeatherInfo getWeatherJson(double latitude, double longitude);
-
-    public Geocode getGeoCodeObject(String localizacao);
-
     //WeatherInfo GetWeatherByEventID(Integer idEvento);
 
     WeatherInfo SaveWeatherInfo(WeatherInfo weatherInfo);
 
-    public void processAndSaveWeatherInfo(WeatherApiResponse weatherApiResponse, Evento evento);
+    public WeatherInfo processAndSaveWeatherInfo(WeatherApiResponse weatherApiResponse, Evento evento);
 }

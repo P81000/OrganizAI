@@ -58,7 +58,7 @@ public class EventoController {
     }
 
     @PostMapping("/{email}")
-    public ResponseEntity<Evento> createEvento(@PathVariable String email, @RequestBody Evento novoEvento) throws JsonProcessingException {
+    public ResponseEntity<Evento> createEvento(@PathVariable String email, @RequestBody Evento novoEvento) {
         // Verificar se é válido
         if (novoEvento == null) {
             return ResponseEntity.badRequest().build();
@@ -68,16 +68,21 @@ public class EventoController {
         if (usuario == null) {
             return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o usuário não existe
         }
-
+        novoEvento.set_usuario(usuario);
+        WeatherInfo weatherInfo = null;
         if(!novoEvento.getLocalizacao().isEmpty()){
             this.apiManager = new OpenWeatherApi(_geocodeApiKey);
             Geocode geocodeParams = apiManager.GetGeocodeCoordinates(novoEvento.getLocalizacao());
             WeatherApiResponse weatherApiResponse = apiManager.GetOpenWeather5DayForecast(geocodeParams.getLat(), geocodeParams.getLon());
-            weatherService.processAndSaveWeatherInfo(weatherApiResponse, novoEvento);
+            weatherInfo = weatherService.processAndSaveWeatherInfo(weatherApiResponse, novoEvento);
 
             System.out.println("Country: " + geocodeParams.getCountry());
         }
 
+        if(weatherInfo != null){
+            weatherInfo = weatherService.SaveWeatherInfo(weatherInfo);
+        }
+        
         Evento eventoSalvo = eventoService.saveEvento(novoEvento);
 
         // Retornar o evento salvo e o status 201 Created

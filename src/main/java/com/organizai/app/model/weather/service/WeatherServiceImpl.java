@@ -31,47 +31,21 @@ public class WeatherServiceImpl implements WeatherService
     public WeatherServiceImpl(WeatherRepository weatherRepository){
         this._weatherRepository = weatherRepository;
     }
-   // @Override
-    public WeatherInfo getWeatherJson(double latitude, double longitude) {
-        String apiUrl = String.format("https://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&exclude=hourly,minutely&appid=%s",
-                latitude, longitude, openWeatherMapApiKey);
-
-        System.out.println("URL WEATHER: " + apiUrl);
-
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(apiUrl, WeatherInfo.class);
-    }
-
-    public Geocode getGeoCodeObject(String localizacao){
-        try{
-            String geocodeUrlApi =
-                    String.format("http://api.openweathermap.org/geo/1.0/direct?q=%s&limit=5&appid=%s", localizacao, getOpenWeatherMapApiKey());
-            System.out.println("URL GEOCODE: " + geocodeUrlApi);
-            RestTemplate restTemplate = new RestTemplate();
-            var response = restTemplate.getForObject(geocodeUrlApi, Geocode[].class);
-            assert response != null;
-            return response[0];
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        System.out.println("Returning null!");
-        return null;
-    }
 
      @Override
      public WeatherInfo SaveWeatherInfo(WeatherInfo weatherInfo) {
-         return this._weatherRepository.save(weatherInfo);
+        WeatherInfo weatherInfo1 = this._weatherRepository.save(weatherInfo);
+        return weatherInfo1;
      }
 
-     @Override
-     public void processAndSaveWeatherInfo(WeatherApiResponse weatherApiResponse, Evento evento) { //TODO pegar apenas o periodo correto
+     public WeatherInfo processAndSaveWeatherInfo(WeatherApiResponse weatherApiResponse, Evento evento) { //TODO pegar apenas o periodo correto
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
          Date dataInicioEvento;
         try{
              dataInicioEvento = simpleDateFormat.parse(evento.getData_inicio());
         }catch(ParseException e){
             System.out.println(e.getMessage());
-            return;
+            return null;
         }
 
         for(WeatherData weatherData : weatherApiResponse.getList()){
@@ -90,11 +64,25 @@ public class WeatherServiceImpl implements WeatherService
                 );
                 //save weather info no repo
                 evento.set_info_clima(weatherInfo);
-                this.SaveWeatherInfo(weatherInfo);
+                System.out.println(weatherInfo.getDescricao());
                 System.out.println("Datas coincidem!!!");
-                return;
+                return weatherInfo;
             }
         }
+        //se nao há data correspondente, retorna o primeiro forecast
+        WeatherData weatherData = weatherApiResponse.getList().get(0);
+        WeatherInfo weatherInfo = new WeatherInfo(
+                evento,
+                weatherData.getPop(),
+                weatherData.getMain().get("humidity").asInt(),
+                weatherData.getMain().get("temp").asDouble(),
+                weatherData.getMain().get("temp_max").asDouble(),
+                weatherData.getMain().get("temp_min").asDouble(),
+                weatherData.getMain().get("feels_like").asDouble(),
+                weatherData.getWeather().get(0).get("description").asText()
+        );
+        evento.set_info_clima(weatherInfo);
+        return weatherInfo;
      }
 
      public static Date ForecastDateFormat(String dateString){
