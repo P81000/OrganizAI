@@ -1,0 +1,14 @@
+{
+  "name": "llama",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "teste.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "fs": "^0.0.1-security",
+    "replicate": "^0.21.1"
+  }
+}

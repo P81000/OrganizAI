@@ -2,7 +2,11 @@
 import CalendarComponent from "@/components/CalendarComponent.vue";
 import CounterComponent from "@/components/CounterComponent.vue";
 import TestComponent from "@/components/TestComponent.vue";
+import { ref } from "vue";
 import { shallowRef } from "vue";
+import { onMounted } from "vue";
+import { runModel } from "@/LLM/index.js";
+
 
 const ShowLeftBar = shallowRef(true);
 const contentBlurred = shallowRef(false);
@@ -16,6 +20,16 @@ const toggleLeftBar = () => {
 const setActiveComponent = (component) => {
   activeComponent.value = component;
 };
+
+taskPath = '/path/to/task.json';
+todasTaskPath = './path/to/TODAStasks.json';
+let LLMResponse = ref(null);
+
+const callRunModel = async () => {
+  LLMResponse.value = await runModel(taskPath, todasTaskPath);
+};
+
+onMounted(callRunModel);
 </script>
 
 <template>
@@ -53,6 +67,9 @@ const setActiveComponent = (component) => {
           >Counter
         </a>
       </nav>
+      <div class="rounded-box" v-show="!ShowLeftBar">
+        <p>{{ LLMResponse.value }}</p>
+      </div>
     </div>
     <div class="content" :class="{ 'blur-content': contentBlurred }">
       <component :is="activeComponent"></component>
@@ -162,6 +179,13 @@ a {
 }
 a:hover {
   filter: drop-shadow(1px 1px 1px rgba(238, 108, 77, 0.5));
+}
+
+.rounded-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 35%;
+  margin: 90%;
 }
 .activeLink {
   font-size: 200%;

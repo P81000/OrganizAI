@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
         hello to efficient<br />
         scheduling and task management!
       </p>
-      <router-link to="/registration" class="button-get-started">
+      <router-link to="/main-page" class="button-get-started">
         <div class="text-get-started">Get Started!</div>
       </router-link>
       <img class="line" src="../assets/line.png" alt="Line" />
