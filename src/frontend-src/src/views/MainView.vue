@@ -41,7 +41,7 @@ const tarefas = ref([]);
 
 const fetchTarefas = async () => {
   try {
-    const response = await fetch('/tarefas');
+    const response = await fetch('/tarefas'); //http://localhost:8080/tarefas ?
     if (response.ok) {
       const data = await response.json();
       tarefas.value = data;
@@ -54,8 +54,6 @@ const fetchTarefas = async () => {
 };
 
 onMounted(fetchTarefas);
-
-todasTask= tarefas.value;
 
 const findIncompleteTask = (tasks) => {
   return tasks.find(task => task.status === 'incomplete'); //Insert here the status you want to find
@@ -76,6 +74,13 @@ const callRunModel = async () => {
   if (!taskSelec) {
     console.error('No incomplete tasks found');
     return;
+
+  // Create a new list with only horarioInicio and horarioFim (We need the date as well)
+  const todasTask = tarefas.value.map(task => ({
+    horarioInicio: task.horarioInicio,
+    horarioFim: task.horarioFim 
+  }));
+
   }
 
   LLMResponse.value = await runModel(taskSelec, todasTask);
