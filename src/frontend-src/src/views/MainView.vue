@@ -2,6 +2,7 @@
 import CalendarComponent from "@/components/CalendarComponent.vue";
 import CounterComponent from "@/components/CounterComponent.vue";
 import TestComponent from "@/components/TestComponent.vue";
+//import EventoService from '../service/EventoService.js';
 import { ref } from "vue";
 import { shallowRef } from "vue";
 import { onMounted } from "vue";
@@ -21,15 +22,68 @@ const setActiveComponent = (component) => {
   activeComponent.value = component;
 };
 
-taskPath = '/path/to/task.json';
-todasTaskPath = './path/to/TODAStasks.json';
+
+/*onMounted(async () => {
+  window.addEventListener("keydown", handleKeyDown);
+  try {
+    const response = await EventoService.getEventos();
+    for (const i of response.data){
+      console.log(i);
+      events.value.push(i);
+    }
+  } catch(error) {
+    console.log("Erro getEventos: ", error);
+  }
+});
+*/ //Caso não funcione o modelo abaixo, testar esse método
+
+const tarefas = ref([]);
+
+const fetchTarefas = async () => {
+  try {
+    const response = await fetch('/tarefas');
+    if (response.ok) {
+      const data = await response.json();
+      tarefas.value = data;
+    } else {
+      console.error('Failed to fetch tarefas:', response.status);
+    }
+  } catch (error) {
+    console.error('Error fetching tarefas:', error);
+  }
+};
+
+onMounted(fetchTarefas);
+
+todasTask= tarefas.value;
+
+const findIncompleteTask = (tasks) => {
+  return tasks.find(task => task.status === 'incomplete'); //Insert here the status you want to find
+};
+
 let LLMResponse = ref(null);
 
 const callRunModel = async () => {
-  LLMResponse.value = await runModel(taskPath, todasTaskPath);
+  // Ensure tarefas.value is loaded before proceeding
+  if (tarefas.value.length === 0) {
+    console.error('No tasks available');
+    return;
+  }
+  // Find the first incomplete task
+  const taskSelec = findIncompleteTask(tarefas.value);
+
+  // Check if an incomplete task was found
+  if (!taskSelec) {
+    console.error('No incomplete tasks found');
+    return;
+  }
+
+  LLMResponse.value = await runModel(taskSelec, todasTask);
+  //console.log(LLMResponse.value)
 };
 
 onMounted(callRunModel);
+
 </script>
 
 <template>
