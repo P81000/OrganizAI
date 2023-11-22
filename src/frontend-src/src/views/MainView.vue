@@ -37,11 +37,11 @@ const setActiveComponent = (component) => {
 });
 */ //Caso não funcione o modelo abaixo, testar esse método
 
-const tarefas = ref([]);
+/*const tarefas = ref([]);
 
 const fetchTarefas = async () => {
   try {
-    const response = await fetch('/tarefas'); //http://localhost:8080/tarefas ?
+    const response = await fetch('http://localhost:8080/tarefas'); //Aqui deveria receber um endpoint do método findAllTarefas()
     if (response.ok) {
       const data = await response.json();
       tarefas.value = data;
@@ -54,6 +54,17 @@ const fetchTarefas = async () => {
 };
 
 onMounted(fetchTarefas);
+*/
+const tarefas = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await EventoService.getTarefas();
+    tarefas.value = response.data;
+  } catch(error) {
+    console.log("Error getTarefas: ", error);
+  }
+});
 
 const findIncompleteTask = (tasks) => {
   return tasks.find(task => task.status === 'incomplete'); //Insert here the status you want to find
