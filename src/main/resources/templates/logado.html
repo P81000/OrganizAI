@@ -84,11 +84,11 @@
         </table>
     </div>
 
-    <button id="btnCadastrarTarefa" class="custom-button">Cadastrar Tarefa</button>
+    <button id="btnCadastrarEvento" class="custom-button">Cadastrar Evento</button>
 
-    <div id="cadastroTarefaForm" style="display: none;">
-        <h2>Cadastro de Tarefa</h2>
-        <form id="tarefaForm" class="custom-login-form">
+    <div id="cadastroEventoForm" style="display: none;">
+        <h2>Cadastro de Evento</h2>
+        <form id="eventoForm" class="custom-login-form">
             <label for="titulo">Título:</label>
             <input type="text" id="titulo" name="titulo" class="custom-input" required><br>
 
@@ -113,7 +113,7 @@
             <label for="idInfoTrajeto">ID de Informação de Trajeto:</label>
             <input type="text" id="idInfoTrajeto" name="idInfoTrajeto" class="custom-input"><br>
 
-            <button type="submit" class="custom-button">Salvar Tarefa</button>
+            <button type="submit" class="custom-button">Salvar Evento</button>
         </form>
     </div>
 
@@ -135,16 +135,16 @@
             return paramMap;
         }
 
-        const cadastroTarefaForm = document.getElementById("cadastroTarefaForm");
-        const tarefaForm = document.getElementById("tarefaForm");
+        const cadastroEventoForm = document.getElementById("cadastroEventoForm");
+        const eventoForm = document.getElementById("eventoForm");
 
-        // Adicione um evento ao botão "Cadastrar Tarefa" para exibir o formulário de cadastro de tarefas
-        document.getElementById("btnCadastrarTarefa").addEventListener("click", function () {
+        // Adicione um evento ao botão "Cadastrar Evento" para exibir o formulário de cadastro de eventos
+        document.getElementById("btnCadastrarEvento").addEventListener("click", function () {
             console.log("Botão clicado");
-            cadastroTarefaForm.style.display = "block";
+            cadastroEventoForm.style.display = "block";
         });
 
-        tarefaForm.addEventListener("submit", function (e) {
+        eventoForm.addEventListener("submit", function (e) {
             e.preventDefault();
             const titulo = document.getElementById("titulo").value;
             const descricao = document.getElementById("descricao").value;
@@ -155,8 +155,8 @@
             const idInfoClima = document.getElementById("idInfoClima").value;
             const idInfoTrajeto = document.getElementById("idInfoTrajeto").value;
 
-            // Construa um objeto com os dados da tarefa
-            const tarefa = {
+            // Construa um objeto com os dados do evento
+            const evento = {
                 titulo: titulo,
                 descricao: descricao,
                 data_inicio: dataInicio,
@@ -174,29 +174,29 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(tarefa)
+                body: JSON.stringify(evento)
             })
                 .then(response => {
                     if (response.ok) {
-                        // Tarefa cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
-                        alert("Tarefa cadastrada com sucesso!");
+                        // Evento cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
+                        alert("Evento cadastrado com sucesso!");
                         window.location.href = "/eventos"
 
                     } else {
-                        // Tratar a resposta do servidor para erros de cadastro de tarefa
-                        console.error("Erro de cadastro de tarefa:", response.statusText);
-                        alert("Erro ao cadastrar a tarefa. Por favor, tente novamente.");
+                        // Tratar a resposta do servidor para erros de cadastro de evento
+                        console.error("Erro de cadastro de evento:", response.statusText);
+                        alert("Erro ao cadastrar o evento. Por favor, tente novamente.");
                     }
                 })
                 .catch(error => {
                     // Tratar erros de requisição
                     console.error("Erro na requisição:", error);
-                    alert("Erro ao cadastrar a tarefa. Por favor, tente novamente.");
+                    alert("Erro ao cadastrar o evento. Por favor, tente novamente.");
                 });
 
             // Limpar o formulário após o cadastro
-            tarefaForm.reset();
-            cadastroTarefaForm.style.display = "none"; // Ocultar o formulário após o cadastro
+            evento.reset();
+            cadastroEventoForm.style.display = "none"; // Ocultar o formulário após o cadastro
         });
     });
 </script>

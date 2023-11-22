@@ -9,8 +9,6 @@ public class TarefaMapper {
                 .id(tarefa.getIdTarefa())
                 .titulo(tarefa.getTitulo())
                 .descricao(tarefa.getDescricao())
-                .horarioInicio(tarefa.getHorarioInicio())
-                .horarioFim(tarefa.getHorarioFim())
                 .status(tarefa.getStatus())
                 .build();
         return tarefaDTO;

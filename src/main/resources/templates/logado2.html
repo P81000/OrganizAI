@@ -111,11 +111,11 @@
         </table>
     </div>
 
-    <button id="btnCadastrarTarefa" class="custom-button">Cadastrar Tarefa</button>
+    <button id="btnCadastrarEvento" class="custom-button">Cadastrar Evento</button>
 
-    <div id="cadastroTarefaForm" style="display: none;">
-        <h2>Cadastro de Tarefa</h2>
-        <form id="tarefaForm" class="custom-login-form">
+    <div id="cadastroEventoForm" style="display: none;">
+        <h2>Cadastro de Evento</h2>
+        <form id="eventoForm" class="custom-login-form">
             <!-- Seu formulário aqui -->
         </form>
     </div>
@@ -235,8 +235,8 @@ const email = localStorage.getItem("email");
 
 
 
-        const cadastroTarefaForm = document.getElementById("cadastroTarefaForm");
-        const tarefaForm = document.getElementById("tarefaForm");
+        const cadastroEventoForm = document.getElementById("cadastroEventoForm");
+        const eventoForm = document.getElementById("eventoForm");
 
             const dataAtualFormatada = dataAtual.toISOString().slice(0, 16); // Formato YYYY-MM-DDTHH:mm
             document.getElementById("dataInicio").value = dataAtualFormatada;
@@ -249,12 +249,12 @@ const email = localStorage.getItem("email");
             console.error("Elemento 'dataFim' não encontrado no DOM.");
         }
 
-        // Adicione um evento ao botão "Cadastrar Tarefa" para exibir o formulário de cadastro de tarefas
-        document.getElementById("btnCadastrarTarefa").addEventListener("click", function() {
-        cadastroTarefaForm.style.display = "block";
+        // Adicione um evento ao botão "Cadastrar Evento" para exibir o formulário de cadastro de eventos
+        document.getElementById("btnCadastrarEvento").addEventListener("click", function() {
+        cadastroEventoForm.style.display = "block";
     });
 
-        tarefaForm.addEventListener("submit", function (e) {
+        eventoForm.addEventListener("submit", function (e) {
         e.preventDefault();
         const titulo = document.getElementById("titulo").value;
         const descricao = document.getElementById("descricao").value;
@@ -265,8 +265,8 @@ const email = localStorage.getItem("email");
         const idInfoClima = document.getElementById("idInfoClima").value;
         const idInfoTrajeto = document.getElementById("idInfoTrajeto").value;
 
-        // Construa um objeto com os dados da tarefa
-        const tarefa = {
+        // Construa um objeto com os dados da evento
+        const evento = {
         titulo: titulo,
         descricao: descricao,
         data_inicio: dataInicio,
@@ -284,11 +284,11 @@ const email = localStorage.getItem("email");
         headers: {
         "Content-Type": "application/json"
     },
-        body: JSON.stringify(tarefa)
+        body: JSON.stringify(evento)
     })
         .then(response => {
         if (response.ok) {
-        // Tarefa cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
+        // Event cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
         alert("Tarefa cadastrada com sucesso!");
         window.location.href = "/login.html"
 

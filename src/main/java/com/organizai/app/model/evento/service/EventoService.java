@@ -2,6 +2,7 @@ package com.organizai.app.model.evento.service;
 
 import com.organizai.app.model.evento.Evento;
 import com.organizai.app.model.evento.EventoDTO;
+import com.organizai.app.model.tarefa.Tarefa;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface EventoService {
 
     List<EventoDTO> searchEventos(String query);
 
+    void addTarefaInEvento(Integer eventoId, Tarefa tarefa);
 }

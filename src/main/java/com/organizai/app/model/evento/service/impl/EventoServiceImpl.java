@@ -5,6 +5,7 @@ import com.organizai.app.model.evento.EventoDTO;
 import com.organizai.app.model.evento.mapper.EventoMapper;
 import com.organizai.app.model.evento.service.EventoService;
 import com.organizai.app.model.evento.EventoRepository;
+import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.usuario.Usuario;
 import com.organizai.app.model.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,11 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public List<EventoDTO> searchEventos(String query) {
         return null;
+    }
+
+    @Override
+    public void addTarefaInEvento(Integer eventoId, Tarefa tarefa){
+        Evento evento = eventoRepository.findById(eventoId).get();
+        evento.addTarefa(tarefa);
     }
 }
