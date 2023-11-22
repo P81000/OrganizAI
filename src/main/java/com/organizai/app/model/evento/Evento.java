@@ -1,7 +1,7 @@
 package com.organizai.app.model.evento;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.organizai.app.model.etiqueta.Etiqueta;
+import com.organizai.app.model.etiqueta.Etiqueta;
 import com.organizai.app.model.tarefa.Tarefa;
 import com.organizai.app.model.usuario.Usuario;
 import com.organizai.app.model.weather.WeatherInfo;
@@ -37,10 +37,10 @@ public class Evento {
       private WeatherInfo infoClima;
       private String id_info_trajeto;
 
-      /*@JsonIgnore
+      @JsonIgnore
       @ManyToOne
       @JoinColumn(name="id_etiqueta")
-      private Etiqueta _etiqueta;*/
+      private Etiqueta _etiqueta;
 
       @Getter
       @JsonIgnore

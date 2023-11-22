@@ -1,5 +1,6 @@
 package com.organizai.app.model.evento.service.impl;
 
+import com.organizai.app.model.etiqueta.Etiqueta;
 import com.organizai.app.model.evento.Evento;
 import com.organizai.app.model.evento.EventoDTO;
 import com.organizai.app.model.evento.mapper.EventoMapper;
@@ -55,6 +56,11 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
+    public List<Evento> findEventosByEtiqueta(Etiqueta etiqueta) {
+        List<Evento> eventos = etiqueta.getEventos();
+        return eventos;
+    }
+    @Override
     public void updateEvento(Evento evento) {
 
     }
@@ -73,5 +79,14 @@ public class EventoServiceImpl implements EventoService {
     public void addTarefaInEvento(Integer eventoId, Tarefa tarefa){
         Evento evento = eventoRepository.findById(eventoId).get();
         evento.addTarefa(tarefa);
+    }
+
+    @Override
+    public void deleteAllEventosByUsuario(Usuario usuario){
+        List<Evento> eventos = usuario.getEventos();
+        for(Evento evento: eventos){
+            int idEvento = evento.getId_evento();
+            eventoRepository.deleteById(idEvento);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.organizai.app.controller;
 
+import com.organizai.app.model.etiqueta.service.EtiquetaService;
+import com.organizai.app.model.evento.EventoDTO;
+import com.organizai.app.model.evento.service.EventoService;
 import com.organizai.app.model.login.LoginRequest; // Verifique o pacote real onde a classe está definida
 
 import com.organizai.app.model.usuario.UsuarioRepository;
@@ -25,10 +28,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final EventoService eventoService;
+    private final EtiquetaService etiquetaService;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, EventoService eventoService, EtiquetaService etiquetaService) {
         this.usuarioService = usuarioService;
+        this.eventoService = eventoService;
+        this.etiquetaService = etiquetaService;
     }
 
     @RequestMapping("/cadastro")
@@ -73,6 +80,14 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Usuario> deleteUsuario(@PathVariable Integer id) {
         if (!usuarioService.existsById(id)) return ResponseEntity.notFound().build();
+
+        Usuario usuario = usuarioService.findById(id);
+        if (usuario == null) {
+            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o evento não existe
+        }
+
+        eventoService.deleteAllEventosByUsuario(usuario);
+        etiquetaService.deleteAllEtiquetasByUsuario(usuario);
 
         usuarioService.deleteById(id);
 
