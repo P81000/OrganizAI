@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.organizai.app.model.etiqueta.Etiqueta;
 import com.organizai.app.model.evento.Evento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,10 @@ public class Usuario {
     @OneToMany(mappedBy = "_usuario", cascade = CascadeType.ALL)
     private List<Evento> eventos = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "_usuario", cascade = CascadeType.ALL)
+    private List<Etiqueta> etiquetas = new ArrayList<>();
+
     public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
@@ -50,6 +55,9 @@ public class Usuario {
     }
     public void setEventos(Evento eventos) {
         this.eventos.add(eventos);
+    }
+    public void setEtiquetas(Etiqueta etiqueta) {
+        this.etiquetas.add(etiqueta);
     }
     public void setPassword(String password) throws NoSuchAlgorithmException {
 
