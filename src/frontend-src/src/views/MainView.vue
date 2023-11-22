@@ -21,40 +21,6 @@ const toggleLeftBar = () => {
 const setActiveComponent = (component) => {
   activeComponent.value = component;
 };
-
-
-/*onMounted(async () => {
-  window.addEventListener("keydown", handleKeyDown);
-  try {
-    const response = await EventoService.getEventos();
-    for (const i of response.data){
-      console.log(i);
-      events.value.push(i);
-    }
-  } catch(error) {
-    console.log("Erro getEventos: ", error);
-  }
-});
-*/ //Caso não funcione o modelo abaixo, testar esse método
-
-/*const tarefas = ref([]);
-
-const fetchTarefas = async () => {
-  try {
-    const response = await fetch('http://localhost:8080/tarefas'); //Aqui deveria receber um endpoint do método findAllTarefas()
-    if (response.ok) {
-      const data = await response.json();
-      tarefas.value = data;
-    } else {
-      console.error('Failed to fetch tarefas:', response.status);
-    }
-  } catch (error) {
-    console.error('Error fetching tarefas:', error);
-  }
-};
-
-onMounted(fetchTarefas);
-*/
 const tarefas = ref([]);
 
 onMounted(async () => {
@@ -62,15 +28,11 @@ onMounted(async () => {
     const response = await EventoService.getTarefas();
     tarefas.value = response.data;
   } catch(error) {
-    console.log("Error getTarefas: ", error);
+    console.log("Erro getTarefas: ", error);
   }
 });
 
-const findIncompleteTask = (tasks) => {
-  return tasks.find(task => task.status === 'incomplete'); //Insert here the status you want to find
-};
-
-let LLMResponse = ref(null);
+let LLMResponses = ref(null);
 
 const callRunModel = async () => {
   // Ensure tarefas.value is loaded before proceeding
@@ -81,25 +43,30 @@ const callRunModel = async () => {
   // Find the first incomplete task
   const taskSelec = findIncompleteTask(tarefas.value);
 
-  // Check if an incomplete task was found
-  if (!taskSelec) {
+  // Find all incomplete tasks
+  const incompleteTasks = findAllIncompleteTasks(tarefas.value);
+
+  // Check if there are any incomplete tasks
+  if (incompleteTasks.length === 0) {
     console.error('No incomplete tasks found');
     return;
-
-  // Create a new list with only horarioInicio and horarioFim (We need the date as well)
-  const todasTask = tarefas.value.map(task => ({
-    horarioInicio: task.horarioInicio,
-    horarioFim: task.horarioFim 
-  }));
-
   }
 
-  LLMResponse.value = await runModel(taskSelec, todasTask);
-  //console.log(LLMResponse.value)
+  for (const taskSelec of incompleteTasks) {
+    const todasTask = tarefas.value.map(task => ({
+      horarioInicio: task.horarioInicio,
+      horarioFim: task.horarioFim 
+    }));
+
+    const response = await runModel(taskSelec, todasTask);
+    LLMResponses.value.push(response);
+    //console.log(LLMResponses.value)
+  }
+  
 };
 
 onMounted(callRunModel);
-
+  
 </script>
 
 <template>
