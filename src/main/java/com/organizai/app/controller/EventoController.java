@@ -49,26 +49,24 @@ public class EventoController {
     }
 
     @GetMapping
-    public String getEvento(Model model) {
-
+    public ResponseEntity<List<EventoDTO>> getEvento() {
         List<EventoDTO> Eventos = eventoService.findAllEventos();
-        model.addAttribute("eventos", Eventos);
 
-        return "logado";
+        return ResponseEntity.ok(Eventos);
     }
 
-    @PostMapping("/{email}")
-    public ResponseEntity<Evento> createEvento(@PathVariable String email, @RequestBody Evento novoEvento) {
-        // Verificar se é válido
+    @PostMapping("/criar")
+    public ResponseEntity<Evento> createEvento(@RequestBody Evento novoEvento) {
         if (novoEvento == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        Usuario usuario = usuarioService.findByEmail(email);
-        if (usuario == null) {
-            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o usuário não existe
-        }
-        novoEvento.set_usuario(usuario);
+//        Usuario usuario = usuarioService.findByEmail(email);
+//        if (usuario == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        novoEvento.set_usuario(usuario);
+
         WeatherInfo weatherInfo = null;
         if(!novoEvento.getLocalizacao().isEmpty()){
             this.apiManager = new OpenWeatherApi(_geocodeApiKey);
@@ -85,7 +83,6 @@ public class EventoController {
         
         Evento eventoSalvo = eventoService.saveEvento(novoEvento);
 
-        // Retornar o evento salvo e o status 201 Created
         return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
     }
 

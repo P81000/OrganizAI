@@ -77,13 +77,14 @@ public class EventoDTO {
     }
 
     public String getCorpo() {
-
-          return "Id" + id + "\n" +
-                    "Título: " + titulo + "\n" +
-                    "Descrição: " + descricao + "\n" +
-                    "Data de Início: " + dataInicio + "\n" +
-                    "Data de Fim: " + dataFim + "\n" +
-                    "Localização: " + localizacao + "\n" +
-                    "Tarefas: " + tarefas + "\n";
-      }
+        return "{\n" +
+                "\"Id\": " + id + ",\n" +
+                "\"Titulo\": \"" + titulo + "\",\n" +
+                "\"Descricao\": \"" + descricao + "\",\n" +
+                "\"Data de Inicio\": \"" + dataInicio + "\",\n" +
+                "\"Data de Fim\": \"" + dataFim + "\",\n" +
+                "\"Localizacao\": \"" + localizacao + "\",\n" +
+                "\"Tarefas\": " + tarefas + "\n" +
+                "},\n";
+    }
 }
