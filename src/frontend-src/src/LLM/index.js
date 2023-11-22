@@ -1,25 +1,24 @@
 import dotenv from 'dotenv';
 import Replicate from "replicate";
-import fs from 'fs';
+//import fs from 'fs';
 
 dotenv.config();
 
-export async function runModel(taskPath, todasTaskPath) {
+export async function runModel(taskPath) {
   const replicate = new Replicate({
     auth: process.env.REPLICATE_API_KEY,
   });
 
-  const taskSelec = JSON.parse(fs.readFileSync(taskPath, 'utf8'));
-  const Outrastasks = JSON.parse(fs.readFileSync(todasTaskPath, 'utf8'));
+  //const taskSelec = JSON.parse(fs.readFileSync(taskPath, 'utf8'));
 
-  function generatePrompt(taskSelec) {
+  function generatePrompt(taskSelec, todasTask) {
     let prompt = taskSelec + "Por favor, escolha uma nova data e horário para a realização da task. Os horarios ocupados são: ";
     
-    Outrastasks.forEach((Outrastasks, index) => {
-      prompt += `${Outrastasks.date} ${Outrastasks.startTime} - ${Outrastasks.endTime}`;
+    todasTask.forEach((todasTask, index) => {
+      prompt += `${todasTask.date} ${todasTask.startTime} - ${todasTask.endTime}`;
       
       // Adiciona uma vírgula após cada tarefa, exceto a última
-      if (index < Outrastasks.length - 1) {
+      if (index < todasTask.length - 1) {
         prompt += ", ";
       }
     });

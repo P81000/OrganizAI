@@ -7,7 +7,7 @@ class EventoService{
     getEventos(){
         return axios.get(EVENTS_API_BASE_URL);
     }
-setEventos(event){
+    setEventos(event){
         return axios.post(EVENTS_API_BASE_URL + "/criar", event, {
             headers: {
                 'Content-Type': 'application/json',
@@ -16,6 +16,9 @@ setEventos(event){
     }
     deletEvento(id) {
         return axios.delete(EVENTS_API_BASE_URL + "/delete/" + id);
+    }
+    getTarefas() {
+        return axios.get(EVENTS_API_BASE_URL + '/tarefas');
     }
 }
 

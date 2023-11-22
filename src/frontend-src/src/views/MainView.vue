@@ -2,6 +2,7 @@
 import CalendarComponent from "@/components/CalendarComponent.vue";
 import CounterComponent from "@/components/CounterComponent.vue";
 import TestComponent from "@/components/TestComponent.vue";
+//import EventoService from '../service/EventoService.js';
 import { ref } from "vue";
 import { shallowRef } from "vue";
 import { onMounted } from "vue";
@@ -20,16 +21,52 @@ const toggleLeftBar = () => {
 const setActiveComponent = (component) => {
   activeComponent.value = component;
 };
+const tarefas = ref([]);
 
-taskPath = '/path/to/task.json';
-todasTaskPath = './path/to/TODAStasks.json';
-let LLMResponse = ref(null);
+onMounted(async () => {
+  try {
+    const response = await EventoService.getTarefas();
+    tarefas.value = response.data;
+  } catch(error) {
+    console.log("Erro getTarefas: ", error);
+  }
+});
+
+let LLMResponses = ref(null);
 
 const callRunModel = async () => {
-  LLMResponse.value = await runModel(taskPath, todasTaskPath);
+  // Ensure tarefas.value is loaded before proceeding
+  if (tarefas.value.length === 0) {
+    console.error('No tasks available');
+    return;
+  }
+  // Find the first incomplete task
+  const taskSelec = findIncompleteTask(tarefas.value);
+
+  // Find all incomplete tasks
+  const incompleteTasks = findAllIncompleteTasks(tarefas.value);
+
+  // Check if there are any incomplete tasks
+  if (incompleteTasks.length === 0) {
+    console.error('No incomplete tasks found');
+    return;
+  }
+
+  for (const taskSelec of incompleteTasks) {
+    const todasTask = tarefas.value.map(task => ({
+      horarioInicio: task.horarioInicio,
+      horarioFim: task.horarioFim 
+    }));
+
+    const response = await runModel(taskSelec, todasTask);
+    LLMResponses.value.push(response);
+    //console.log(LLMResponses.value)
+  }
+  
 };
 
 onMounted(callRunModel);
+  
 </script>
 
 <template>
