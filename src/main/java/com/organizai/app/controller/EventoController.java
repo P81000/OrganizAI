@@ -51,7 +51,7 @@ public class EventoController {
     @GetMapping
     public ResponseEntity<List<EventoDTO>> getEvento() {
         List<EventoDTO> Eventos = eventoService.findAllEventos();
-
+        System.out.println(Eventos);
         return ResponseEntity.ok(Eventos);
     }
 
@@ -87,41 +87,39 @@ public class EventoController {
     }
 
 
-    @PutMapping("/{id}") // Mapeia para eventos/{id} com método PUT
+    @PutMapping("/{id}")
     public ResponseEntity<Evento> updateEvento(@PathVariable Integer id, @RequestBody Evento eventoAtualizado) {
-        // Verifique se o evento a ser atualizado existe
         EventoDTO evento = eventoService.findEventoById(id);
         if (evento == null) {
-            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o evento não existe
+            return ResponseEntity.notFound().build();
         }
 
         // Verificar se é valido IMPLEMENTAR
         if (eventoAtualizado == null) {
-            return ResponseEntity.badRequest().build(); // Retorna status de BadRequest se o evento for inválido
+            return ResponseEntity.badRequest().build();
         }
 
         Evento eventoAtualizadoNoBanco = eventoService.saveEvento(eventoAtualizado);
 
-        // Evento atualizado e o status 200 OK
         return ResponseEntity.ok(eventoAtualizadoNoBanco);
     }
 
-    @DeleteMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Void> deleteEvento(@PathVariable Integer id) {
 
+        System.out.println("cheguei1");
 
         EventoDTO evento = eventoService.findEventoById(id);
         if (evento == null) {
-            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o evento não existe
+            return ResponseEntity.notFound().build();
         }
 
+        System.out.println(id);
 
-        // Exclua todas as tarefas associadas a este evento
-        tarefaService.deleteAllTarefasByEvento(evento);
+//        tarefaService.deleteAllTarefasByEvento(evento);
 
         eventoService.delete(id);
 
-        // Retorne o status 204 No Content (sem conteúdo) para indicar a exclusão bem-sucedida
         return ResponseEntity.noContent().build();
     }
 

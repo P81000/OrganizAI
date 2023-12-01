@@ -1,31 +1,30 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, ref, getCurrentInstance } from "vue";
 import EventComponent from "./EventComponent.vue";
 
-const contentBlurred = ref(false);
-
 defineProps({
-  event: {
+  eventoCard: {
     type: Object,
   },
 });
 
+const { emit } = getCurrentInstance();
 const showEvent = ref(false);
 
 const openDetails = () => {
+  emit("close");
   showEvent.value = !showEvent.value;
-  contentBlurred.value = showEvent.value;
 };
 </script>
 
 <template>
   <div class="evento-container" @click="openDetails">
-    <p>{{ event.titulo }}</p>
-    <p>{{ event.localizacao }}</p>
+    <p class="evento-info titulo">{{ eventoCard.titulo }}</p>
+    <p class="evento-info desc">{{ eventoCard.descricao }}</p>
     <div v-if="showEvent" class="detalhes">
       <div class="showEvent">
         <div class="event-content">
-          <EventComponent :is="event"></EventComponent>
+          <EventComponent :evento="eventoCard"></EventComponent>
         </div>
       </div>
     </div>
@@ -34,14 +33,29 @@ const openDetails = () => {
 
 <style scoped>
 .evento-container {
-  width: auto;
-  height: 15vh;
-  background-color: #f0f0f0;
-  margin: 1vw;
+  width: 15vw;
+  height: 10vh;
+  border-radius: 12px;
+  background: rgba(152, 193, 217, 0.3);
+  margin: 0.5vw;
+  padding: 1%;
   cursor: pointer;
   position: relative;
+  box-shadow: 1px 2px 5px #293241;
 }
-
+.evento-info{
+  font-style: italic;
+  font-family: Roboto, sans-serif;
+  font-weight: 800;
+  font-size: 120%;
+  text-align: left;
+  margin-left: 3%;
+  color: #293241;
+}
+.titulo {
+  font-size: 150%;
+  border-bottom: 1px solid #ee6c4d;
+}
 .showEvent {
   position: fixed;
   top: 50%;
@@ -60,9 +74,5 @@ const openDetails = () => {
 .event-content {
   width: 100%;
   height: 100%;
-}
-
-.blur-content {
-  filter: blur(1px);
 }
 </style>
