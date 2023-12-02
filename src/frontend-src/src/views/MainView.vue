@@ -1,7 +1,7 @@
 <script setup>
 import CalendarComponent from "@/components/CalendarComponent.vue";
-import CounterComponent from "@/components/CounterComponent.vue";
-import TestComponent from "@/components/TestComponent.vue";
+import AccountComponent from "@/components/AccountComponent.vue";
+import AssistantComponent from "@/components/AssistantComponent.vue";
 import { shallowRef } from "vue";
 
 const ShowLeftBar = shallowRef(true);
@@ -41,16 +41,16 @@ const setActiveComponent = (component) => {
           >Calendar
         </a>
         <a
-          @click="setActiveComponent(TestComponent)"
+          @click="setActiveComponent(AssistantComponent)"
           class="nav-link"
-          :class="{ activeLink: activeComponent === TestComponent }"
-          >Test
+          :class="{ activeLink: activeComponent === AssistantComponent }"
+          >Assistant
         </a>
         <a
-          @click="setActiveComponent(CounterComponent)"
+          @click="setActiveComponent(AccountComponent)"
           class="nav-link"
-          :class="{ activeLink: activeComponent === CounterComponent }"
-          >Counter
+          :class="{ activeLink: activeComponent === AccountComponent }"
+          >Account
         </a>
       </nav>
     </div>

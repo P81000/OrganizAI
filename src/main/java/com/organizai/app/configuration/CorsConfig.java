@@ -13,8 +13,7 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000"); // Troque para a porta onde seu aplicativo Vue.js está rodando
-        config.addAllowedOrigin("http://localhost:3000/registration");
+        config.addAllowedOrigin("http://localhost:9090");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

@@ -33,21 +33,25 @@ public class EventoDTO {
    // @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
     public String dataFim;
 
-    @JsonProperty("localizacao")
-    public String localizacao;
+    @JsonProperty("cidade")
+    public String cidade;
+
+    @JsonProperty("estado")
+    public String estado;
 
     @JsonProperty("tarefas")
     public List<Tarefa> tarefas;
 
     // Construtores, getters e setters
 
-    public EventoDTO(Integer id, String titulo, String descricao, String dataInicio, String dataFim, String localizacao, List<Tarefa> tarefas) {
+    public EventoDTO(Integer id, String titulo, String descricao, String dataInicio, String dataFim, String cidade, String estado, List<Tarefa> tarefas) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
-        this.localizacao = localizacao;
+        this.cidade = cidade;
+        this.estado = estado;
         this.tarefas = tarefas;
     }
 
@@ -62,7 +66,8 @@ public class EventoDTO {
                     evento.getDescricao(),
                     evento.getData_inicio(),
                     evento.getData_fim(),
-                    evento.getLocalizacao(),
+                    evento.getCidade(),
+                    evento.getEstado(),
                     evento.getTarefas()
             );
             eventoDTOs.add(eventoDTO);
@@ -83,7 +88,7 @@ public class EventoDTO {
                 "\"Descricao\": \"" + descricao + "\",\n" +
                 "\"Data de Inicio\": \"" + dataInicio + "\",\n" +
                 "\"Data de Fim\": \"" + dataFim + "\",\n" +
-                "\"Localizacao\": \"" + localizacao + "\",\n" +
+                "\"Localizacao\": \"" + cidade + "\",\n" +
                 "\"Tarefas\": " + tarefas + "\n" +
                 "},\n";
     }

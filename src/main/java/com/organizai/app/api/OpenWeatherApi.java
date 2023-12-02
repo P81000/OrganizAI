@@ -5,6 +5,8 @@ import com.organizai.app.model.weather.WeatherApiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+
 public class OpenWeatherApi {
     @Value("${weather.api.key}")
     private String _apiKey;
@@ -13,7 +15,7 @@ public class OpenWeatherApi {
         this._apiKey = apiKey;
     }
 
-    public Geocode GetGeocodeCoordinates(String city){ //TODO adicionar filtro para o estado requisitado.
+    public Geocode GetGeocodeCoordinates(String city, String State){ //TODO adicionar filtro para o estado requisitado.
         Geocode geocodeParams = null;
         try{
             String geocodeUrlApi =
@@ -28,6 +30,13 @@ public class OpenWeatherApi {
         }
         System.out.println("Returning null!");
         return geocodeParams;
+    }
+
+    public static Geocode StateFilter(Geocode[] response, String state){
+        for (Geocode geocode:response) {
+            if(Objects.equals(geocode.getState(), state)) return geocode;
+        }
+        return response[0];
     }
 
     public WeatherApiResponse GetOpenWeather5DayForecast(double lat, double lon){

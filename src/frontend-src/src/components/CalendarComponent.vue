@@ -1,6 +1,6 @@
 <!-- TODO: refatorar cartao de evento e evento -->
 <script setup>
-import { onMounted, ref } from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import Card from "./CardComponent.vue";
 import Event from "./EventComponent.vue";
 import EventoService from '../service/EventoService.js';
@@ -8,7 +8,7 @@ import EventoService from '../service/EventoService.js';
 const dataAtual = ref(new Date());
 const dataAux = ref(new Date());
 const dias = ref([]);
-const events = ref([]);
+const eventos = ref([]);
 const showEvent = ref(false);
 
 const anteriorDia = () => {
@@ -35,6 +35,7 @@ const atualizarDias = (novaData) => {
       mes: dia.getMonth() + 1,
       ano: dia.getFullYear(),
       formatData: formatoData,
+      fullInfo: dia,
     });
   }
 };
@@ -51,20 +52,22 @@ const isCurrentDay = (dia) => {
   );
 };
 
-const isSameDate = (dia, event) => {
-  const [eventYear, eventMonth, eventDay] = event.split("T")[0].split("-");
+const isSameDate = (dia, evento) => {
+  const [eventoYear, eventoMonth, eventoDay] = evento.split("T")[0].split("-");
   return (
-      parseInt(eventDay, 10) === dia.dia &&
-      parseInt(eventMonth, 10) === dia.mes &&
-      parseInt(eventYear, 10) === dia.ano
+      parseInt(eventoDay, 10) === dia.dia &&
+      parseInt(eventoMonth, 10) === dia.mes &&
+      parseInt(eventoYear, 10) === dia.ano
   );
 };
 
 const showModal = () => {
-  console.log(showEvent.value);
   showEvent.value = !showEvent.value;
 };
 
+const closeModal = () => {
+  showEvent.value = !showEvent.value;
+}
 const handleKeyDown = (event) => {
   if (event.key === "ArrowLeft") {
     anteriorDia();
@@ -77,14 +80,16 @@ const handleKeyDown = (event) => {
 onMounted(async () => {
   atualizarDias(dataAtual.value);
   window.addEventListener("keydown", handleKeyDown);
-  try {
-    const response = await EventoService.getEventos();
-    for (const i of response.data){
-      console.log(i);
-      events.value.push(i);
+  if (eventos.value.length === 0) {
+    try {
+      const response = await EventoService.getEventos();
+      for (const i of response.data){
+        console.log(i);
+        eventos.value.push(i);
+      }
+    } catch(error) {
+      console.log("Erro getEventos: ", error);
     }
-  } catch(error) {
-    console.log("Erro getEventos: ", error);
   }
 });
 </script>
@@ -130,14 +135,19 @@ onMounted(async () => {
             @click="showModal()"
           />
         </h3>
-        <div v-for="event in events" :key="event.id">
+        <div v-for="evento in eventos" :key="evento.id">
           <Card
-            v-if="isSameDate(dia, event.data_inicio)"
-            :event="event"
+            v-if="isSameDate(dia, evento.data_inicio)"
+            :eventoCard="evento"
           />
         </div>
       </div>
-      <Event class="addEvent" v-if="showEvent" @close="showModal()"></Event>
+      <Event
+        class="addEvent"
+        v-if="showEvent"
+        @close="closeModal()"
+        :eventCard="eventos[eventos.length - 1]">
+      </Event>
     </div>
   </div>
 </template>
@@ -223,6 +233,8 @@ onMounted(async () => {
   background: #e0fbfc;
   border-right: 1px solid #3d5a80;
   border-left: 1px solid #3d5a80;
+  overflow: auto;
+  overflow-x: hidden;
 }
 .currentContainer {
   border-right: 2px solid #ee6c4d;
@@ -261,6 +273,7 @@ onMounted(async () => {
   color: #ee6c4d;
   text-shadow: 1px 1px 1px #3d5a80;
   font-size: 270%;
+  border-bottom: 1px solid #ee6c4d;
 }
 
 .addEvent {
@@ -277,5 +290,15 @@ onMounted(async () => {
   background-color: #f0f0f0;
   z-index: 1000;
 }
-
+::-webkit-scrollbar {
+  width: 3px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #3D5A80;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 </style>
