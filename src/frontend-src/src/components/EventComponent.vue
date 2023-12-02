@@ -9,7 +9,8 @@ const form = ref({
   descricao: '',
   data_inicio: '',
   data_fim: '',
-  localizacao: '',
+  cidade: '',
+  estado: '',
 });
 
 const submitTask = async () => {
@@ -30,7 +31,8 @@ const submitTask = async () => {
   form.descricao = '';
   form.data_inicio = '';
   form.data_fim = '';
-  form.localizacao = '';
+  form.cidade = '';
+  form.estado = '';
 };
 
 const close = () => {
@@ -62,7 +64,8 @@ onMounted(() => {
     form.value.descricao = props.evento.descricao || '';
     form.value.data_inicio = props.evento.data_inicio || '';
     form.value.data_fim = props.evento.data_fim || '';
-    form.value.localizacao = props.evento.localizacao || '';
+    form.value.cidade = props.evento.cidade || '';
+    form.value.estado = props.evento.estado || '';
   }
 });
 </script>
@@ -83,8 +86,11 @@ onMounted(() => {
       <label for="dataFim">Data de Fim:</label>
       <input type="datetime-local" v-model="form.data_fim" class="dataOut" required><br>
 
-      <label for="localizacao">Localização:</label>
-      <input type="text" v-model="form.localizacao" class="localizacao" required><br>
+      <label for="cidade">Cidade:</label>
+      <input type="text" v-model="form.cidade" class="cidade" required><br>
+
+      <label for="estado">Estado:</label>
+      <input type="text" v-model="form.estado" class="estado" required><br>
 
       <button type="submit" class="save">Save</button>
       <button type="button" class="custom-button" @click="close">Close</button>

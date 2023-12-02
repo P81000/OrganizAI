@@ -11,7 +11,8 @@ public class EventoMapper {
                 .descricao(evento.getDescricao())
                 .dataInicio(evento.getData_inicio())
                 .dataFim(evento.getData_fim())
-                .localizacao(evento.getLocalizacao())
+                .cidade(evento.getCidade())
+                .estado(evento.getEstado())
                 .tarefas(evento.getTarefas())
                 .build();
         return eventoDTO;

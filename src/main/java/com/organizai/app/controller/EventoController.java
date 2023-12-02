@@ -68,9 +68,9 @@ public class EventoController {
 //        novoEvento.set_usuario(usuario);
 
         WeatherInfo weatherInfo = null;
-        if(!novoEvento.getLocalizacao().isEmpty()){
+        if(!novoEvento.getCidade().isEmpty()){
             this.apiManager = new OpenWeatherApi(_geocodeApiKey);
-            Geocode geocodeParams = apiManager.GetGeocodeCoordinates(novoEvento.getLocalizacao());
+            Geocode geocodeParams = apiManager.GetGeocodeCoordinates(novoEvento.getCidade(), novoEvento.getEstado());
             WeatherApiResponse weatherApiResponse = apiManager.GetOpenWeather5DayForecast(geocodeParams.getLat(), geocodeParams.getLon());
             weatherInfo = weatherService.processAndSaveWeatherInfo(weatherApiResponse, novoEvento);
 
