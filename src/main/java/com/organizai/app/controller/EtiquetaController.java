@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Controller
-@RequestMapping("/eventos")
+@RequestMapping("/etiquetas")
 public class EtiquetaController {
 
     private final EtiquetaService etiquetaService;
