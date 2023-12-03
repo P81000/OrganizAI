@@ -42,7 +42,6 @@ public class Evento {
       @JoinColumn(name="id_etiqueta")
       private Etiqueta _etiqueta;
 
-      @Getter
       @JsonIgnore
       @OneToMany(mappedBy = "_evento", cascade = CascadeType.ALL)
       private List<Tarefa> tarefas = new ArrayList<>();
