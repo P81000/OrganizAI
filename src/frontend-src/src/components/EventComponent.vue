@@ -1,103 +1,101 @@
-<template>
-  <div id="cadastroEventoForm">
-    <h2>Cadastro de Evento</h2>
-    <form id="eventoForm" class="custom-login-form" @submit.prevent="submitEvento">
-      <label for="titulo">Título:</label>
-      <input type="text" v-model="form.titulo" class="custom-input" required><br>
-
-      <label for="descricao">Descrição:</label>
-      <input type="text" v-model="form.descricao" class="custom-input" required><br>
-
-      <label for="dataInicio">Data de Início:</label>
-      <input type="datetime-local" v-model="form.data_inicio" class="custom-input" required><br>
-
-      <label for="dataFim">Data de Fim:</label>
-      <input type="datetime-local" v-model="form.data_fim" class="custom-input" required><br>
-
-      <label for="localizacao">Localização:</label>
-      <input type="text" v-model="form.localizacao" class="custom-input" required><br>
-
-      <label for="idNotificacao">ID de Notificação:</label>
-      <input type="text" v-model="form.id_notificacao" class="custom-input"><br>
-
-      <label for="idInfoClima">ID de Informação de Clima:</label>
-      <input type="text" v-model="form.id_info_clima" class="custom-input"><br>
-
-      <label for="idInfoTrajeto">ID de Informação de Trajeto:</label>
-      <input type="text" v-model="form.id_info_trajeto" class="custom-input"><br>
-
-      <button type="submit" class="custom-button">Salvar Evento</button>
-      <button type="button" class="custom-button" @close="$emit('close')">Fechar</button>
-    </form>
-    <button @click="deleteEvento()"></button>
-  </div>
-</template>
-
 <script setup>
-import { ref } from 'vue';
+import { ref, getCurrentInstance, onMounted, toRefs } from 'vue';
 import EventoService from "@/service/EventoService";
 
+const { emit } = getCurrentInstance();
+const props = defineProps(['evento', 'dia']);
 const form = ref({
   titulo: '',
   descricao: '',
   data_inicio: '',
   data_fim: '',
-  localizacao: '',
-  id_notificacao: '',
-  id_info_clima: '',
-  id_info_trajeto: ''
+  cidade: '',
+  estado: '',
 });
 
-const submitEvento = async () => {
-  console.log("Form Values Before Submission:", form);
-
-  // Implement the logic to send the event to the server
-  const evento = {
-    titulo: form.value.titulo,
-    descricao: form.value.descricao,
-    data_inicio: form.value.data_inicio,
-    data_fim: form.value.data_fim,
-    localizacao: form.value.localizacao,
-    id_notificacao: form.value.id_notificacao,
-    id_info_clima: form.value.id_info_clima,
-    id_info_trajeto: form.value.id_info_trajeto
-  };
-
-  console.log("Evento Object:", evento)
+const submitTask = async () => {
   try {
-    console.log(JSON.stringify(evento));
-    const response = await EventoService.setEventos(JSON.stringify(evento));
-    if(response){
-      alert("Created");
+    const response = await EventoService.setEventos(JSON.stringify(form.value));
+    console.log(response);
+    if (response) {
+      alert("Event Created!!");
+      emit("success");
     } else {
       alert("Error");
     }
-  } catch(error) {
+  } catch (error) {
     console.error("Erro: ", error);
   }
 
-  // Limpar o formulário após o cadastro
   form.titulo = '';
   form.descricao = '';
   form.data_inicio = '';
   form.data_fim = '';
-  form.localizacao = '';
-  form.id_notificacao = '';
-  form.id_info_clima = '';
-  form.id_info_trajeto = '';
+  form.cidade = '';
+  form.estado = '';
 };
 
-const deleteEvento = async () => {
-  try {
-    const response = await EventoService.deletEvento(7);
-    if(response.ok) {
-      alert("Delete OK");
-    } else {
-      alert("Delete not ok");
+const close = () => {
+  emit("close");
+};
+
+const deleteEvent = async (id) => {
+  if (id) {
+    try {
+      const response = await EventoService.deleteEvento(id);
+      if (response) {
+        alert("Event Deleted!!");
+      } else {
+        alert("Delete not ok");
+      }
+    } catch (error) {
+      console.log("Error: ", error);
     }
-  } catch(error){
-    console.log("Error: ", error);
+  } else {
+    alert("Cannot delete. Task not created yet.");
   }
-
 };
+
+onMounted(() => {
+  // Preencher os campos do formulário com as informações do evento, se disponíveis
+  if (props.evento) {
+    console.log(props.evento);
+    form.value.titulo = props.evento.titulo || '';
+    form.value.descricao = props.evento.descricao || '';
+    form.value.data_inicio = props.evento.data_inicio || '';
+    form.value.data_fim = props.evento.data_fim || '';
+    form.value.cidade = props.evento.cidade || '';
+    form.value.estado = props.evento.estado || '';
+  }
+});
 </script>
+
+<template>
+  <div id="cadastroTarefaForm">
+    <h2>Cadastro de Tarefa</h2>
+    <form id="tarefaForm" class="custom-login-form" @submit.prevent="submitTask">
+      <label for="titulo">Título:</label>
+      <input type="text" v-model="form.titulo" class="titulo" required><br>
+
+      <label for="descricao">Descrição:</label>
+      <input type="text" v-model="form.descricao" class="descricao" required><br>
+
+      <label for="dataInicio">Data de Início:</label>
+      <input type="datetime-local" v-model="form.data_inicio" class="dataIn" required><br>
+
+      <label for="dataFim">Data de Fim:</label>
+      <input type="datetime-local" v-model="form.data_fim" class="dataOut" required><br>
+
+      <label for="cidade">Cidade:</label>
+      <input type="text" v-model="form.cidade" class="cidade" required><br>
+
+      <label for="estado">Estado:</label>
+      <input type="text" v-model="form.estado" class="estado" required><br>
+
+      <button type="submit" class="save">Save</button>
+      <button type="button" class="custom-button" @click="close">Close</button>
+    </form>
+    <button @click="deleteEvent(evento.id)">Delete</button>
+    <div class="details">Details</div>
+  </div>
+</template>

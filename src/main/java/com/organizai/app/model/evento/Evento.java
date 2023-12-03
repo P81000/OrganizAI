@@ -24,7 +24,8 @@ public class Evento {
       private String descricao;
       private String data_inicio;
       private String data_fim;
-      private String localizacao;
+      private String cidade;
+      private String estado;
       private String evento_status;
       @JsonIgnore
       @ManyToOne
@@ -68,9 +69,6 @@ public class Evento {
       public void setData_fim(String data_fim) {
             this.data_fim = data_fim;
       }
-      public void setLocalizacao(String localizacao) {
-            this.localizacao = localizacao;
-      }
 
       public void set_usuario(Usuario _usuario) {
             this._usuario = _usuario;
@@ -81,7 +79,7 @@ public class Evento {
                     "Descrição: " + descricao + "\n" +
                     "Data de Início: " + data_inicio + "\n" +
                     "Data de Fim: " + data_fim + "\n" +
-                    "Localização: " + localizacao + "\n" +
+                    "Localização: " + cidade +"/"+ estado + "\n" +
                     "Tarefas: " + tarefas + "\n";
       }
 
@@ -100,5 +98,12 @@ public class Evento {
       public void setEvento_status(String evento_status) {
             this.evento_status = evento_status;
       }
-      
+
+      public void setCidade(String cidade) {
+            this.cidade = cidade;
+      }
+
+      public void setEstado(String estado) {
+            this.estado = estado;
+      }
 }

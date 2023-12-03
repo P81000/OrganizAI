@@ -259,7 +259,7 @@ p.option {
 }
 
 button {
-  width: 15vw;
+  width: 10vw;
   height: 5vh;
   background-color: #ee6c4d;
   border-radius: 10rem;
