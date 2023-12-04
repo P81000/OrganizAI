@@ -2,12 +2,10 @@ package com.organizai.app.model.weather;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.organizai.app.model.evento.Evento;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.util.List;
 @Entity
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,8 +15,10 @@ public class WeatherInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(mappedBy = "infoClima", cascade = CascadeType.ALL)
-    private Evento evento;
+    @JsonIgnore
+    @JoinColumn(name="id_evento")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Evento _evento;
 
     private double probDeChuva;
     private int umidade;
@@ -32,7 +32,7 @@ public class WeatherInfo {
 
     }
     public WeatherInfo(Evento evento, double probDeChuva, int umidade, double temp, double tempMaxima, double tempMinima, double sensacaoTermica, String descricao) {
-        this.evento = evento;
+        this._evento = evento;
         this.probDeChuva = probDeChuva;
         this.umidade = umidade;
         this.temp = temp - 273.15;
@@ -46,8 +46,8 @@ public class WeatherInfo {
         this.id = id;
     }
 
-    public void setEvento(Evento evento) {
-        this.evento = evento;
+    public void set_evento(Evento evento) {
+        this._evento = evento;
     }
 
     public void setProbDeChuva(double probDeChuva) {
