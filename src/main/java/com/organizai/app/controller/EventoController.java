@@ -104,7 +104,7 @@ public class EventoController {
         return ResponseEntity.ok(eventoAtualizadoNoBanco);
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvento(@PathVariable Integer id) {
 
         System.out.println("cheguei1");
@@ -132,24 +132,24 @@ public class EventoController {
 
         return "tarefa"; // A confirmar
     }
-    @PostMapping("/tarefas/{id_evento}")
-    public ResponseEntity<Tarefa> createTarefa(@PathVariable String id_evento, @RequestBody Tarefa novaTarefa) {
+    @PostMapping("/tarefas/criar")
+    public ResponseEntity<Tarefa> createTarefa(/*@PathVariable String id_evento, */@RequestBody Tarefa novaTarefa) {
 
         // Verificar se é válido
         if (novaTarefa == null) {
             return ResponseEntity.badRequest().build();
         }
-        if (id_evento == null || id_evento.equalsIgnoreCase("null")) {
+       /* if (id_evento == null || id_evento.equalsIgnoreCase("null")) {
             return ResponseEntity.badRequest().build(); // Retorna um status 400 Bad Request se o id for nulo ou "null"
         }
         Integer id = Integer.parseInt(id_evento);
         EventoDTO evento = eventoService.findEventoById(id);
         if (evento == null) {
             return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se a tarefa não existe
-        }
+        }*/
 
         Tarefa tarefaSalva = tarefaService.saveTarefa(novaTarefa);
-        eventoService.addTarefaInEvento(id, novaTarefa);
+        //eventoService.addTarefaInEvento(id, novaTarefa);
 
         // Retornar a tarefa salva e o status 201 Created
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefaSalva);
@@ -174,7 +174,7 @@ public class EventoController {
         // Tarefa atualizada e o status 200 OK
         return ResponseEntity.ok(tarefaAtualizadaNoBanco);
     }
-    @DeleteMapping("/tarefas/{id}")
+    @DeleteMapping("/tarefas/delete/{id}")
     public ResponseEntity<Void> deleteTarefa(@PathVariable Integer id) {
 
         TarefaDTO tarefa = tarefaService.findTarefaById(id);

@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, ref, getCurrentInstance } from "vue";
 import EventComponent from "./EventComponent.vue";
+import TaskComponent from "./TaskComponent.vue";
 
 defineProps({
   eventoCard: {
@@ -12,8 +13,26 @@ const { emit } = getCurrentInstance();
 const showEvent = ref(false);
 
 const openDetails = () => {
+    showEvent.value = true;
+};
+
+const closeDetails = () => {
   emit("close");
   showEvent.value = !showEvent.value;
+};
+
+const showTaskForm = ref(false);
+
+const openTaskForm = () => {
+  showTaskForm.value = true;
+};
+
+const closeTaskForm = () => {
+  showTaskForm.value = false;
+};
+
+const handleTaskSuccess = () => {
+  closeTaskForm();
 };
 </script>
 
@@ -25,6 +44,21 @@ const openDetails = () => {
       <div class="showEvent">
         <div class="event-content">
           <EventComponent :evento="eventoCard"></EventComponent>
+          <div class="tarefas-container">
+            <h3>Tarefas:</h3>
+            <ul>
+              <li v-for="tarefa in eventoCard.tarefas" :key="tarefa.idTarefa">
+                {{ tarefa.titulo }}
+              </li>
+            </ul>
+          </div>
+          <button @click="openTaskForm">Adicionar Tarefa</button>
+          <TaskComponent
+                      v-if="showTaskForm"
+                      @close="closeTaskForm"
+                      @success="handleTaskSuccess"
+                    />
+          <button @click="closeDetails">Fechar Detalhes</button>
         </div>
       </div>
     </div>
