@@ -33,7 +33,8 @@ public class Evento {
       private Usuario _usuario;
       private String id_notificacao;
 
-      @OneToOne
+      @JsonIgnore
+      @OneToOne(cascade = CascadeType.ALL)
       @JoinColumn(name="weather_info_id")
       private WeatherInfo infoClima;
       private String id_info_trajeto;
@@ -75,12 +76,29 @@ public class Evento {
       }
       public String getCorpo() {
 
-          return "Título: " + titulo + "\n" +
+            return "Título: " + titulo + "\n" +
+                    "Id: " + id_evento + "\n" +
                     "Descrição: " + descricao + "\n" +
                     "Data de Início: " + data_inicio + "\n" +
                     "Data de Fim: " + data_fim + "\n" +
                     "Localização: " + cidade +"/"+ estado + "\n" +
-                    "Tarefas: " + tarefas + "\n";
+                    "Tarefas: " + tarefas + "\n" +
+                    "Notificação: " + id_notificacao + "\n" +
+                    "Clima: " + infoClima + "\n" +
+                    "Trajeto: " + id_info_trajeto + "\n" +
+                    "Usuário: " + _usuario + "\n" +
+                    "Status: " + evento_status + "\n";
+
+//          return "Título: " + titulo + "\n" +
+//                    "Descrição: " + descricao + "\n" +
+//                    "Data de Início: " + data_inicio + "\n" +
+//                    "Data de Fim: " + data_fim + "\n" +
+//                    "Localização: " + cidade +"/"+ estado + "\n" +
+//                    "Tarefas: " + tarefas + "\n" +
+//                    "Notificação: " + id_notificacao + "\n" +
+//                    "Clima: " + infoClima + "\n" +
+//                    "Trajeto: " + id_info_trajeto + "\n" +
+//                    "Status: " + evento_status + "\n";
       }
 
       public void setId_notificacao(String id_notificacao) {
