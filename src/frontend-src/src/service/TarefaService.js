@@ -7,14 +7,14 @@ class TarefaService{
     getTarefas(){
         return axios.get(TASKS_API_BASE_URL);
     }
-    setTarefas(task){
-        return axios.post(TASKS_API_BASE_URL + "/criar", task, {
+    setTarefas(task, idEvento){
+        return axios.post(TASKS_API_BASE_URL + "/criar/" + idEvento, task, {
             headers: {
                 'Content-Type': 'application/json',
             },
         });
     }
-    deletTarefa(id) {
+    deleteTarefa(id) {
         return axios.delete(TASKS_API_BASE_URL + "/delete/" + id);
     }
 }

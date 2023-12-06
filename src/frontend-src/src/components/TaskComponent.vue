@@ -3,16 +3,16 @@ import { ref, getCurrentInstance, onMounted, toRefs } from 'vue';
 import TarefaService from "@/service/TarefaService";
 
 const { emit } = getCurrentInstance();
-const props = defineProps(['tarefa']);
+const props = defineProps(['tarefa', 'eventoId']);
 const form = ref({
   titulo: '',
   descricao: '',
   status: '',
 });
 
-const submitTask = async () => {
+const submitTask = async (idEvento) => {
   try {
-    const response = await TarefaService.setTarefas(JSON.stringify(form.value));
+    const response = await TarefaService.setTarefas(JSON.stringify(form.value), idEvento);
     console.log(response);
     if (response) {
       alert("Task Created!!");
@@ -31,23 +31,6 @@ const submitTask = async () => {
 
 const close = () => {
   emit("close");
-};
-
-const deleteTask = async (id) => {
-  if (id) {
-    try {
-      const response = await TarefaService.deleteTarefa(id);
-      if (response) {
-        alert("Task Deleted!!");
-      } else {
-        alert("Delete not ok");
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  } else {
-    alert("Cannot delete. Task not created yet.");
-  }
 };
 
 onMounted(() => {
@@ -74,7 +57,7 @@ onMounted(() => {
       <label for="status">Status:</label>
       <input type="text" v-model="form.status" class="status" required><br>
 
-      <button type="submit" class="save">Save</button>
+      <button type="submit" class="save" @click="submitTask(eventoId)">Save</button>
       <button type="button" class="custom-button" @click="close">Close</button>
     </form>
     <button @click="deleteTask(tarefa.id)">Delete</button>

@@ -27,4 +27,6 @@ public interface EventoService {
     void addTarefaInEvento(Integer eventoId, Tarefa tarefa);
 
     void deleteAllEventosByUsuario(Usuario usuario);
+
+    Evento convertDTOToEntity(EventoDTO eventoDTO);
 }
