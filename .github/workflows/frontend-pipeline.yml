@@ -42,10 +42,10 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Build
-      run: |
-        cd src/frontend-src
-        npm run build
+  #  - name: Build
+  #   run: |
+  #      cd src/frontend-src
+  #      npm run build
 
     # Deployment steps (as comments for guidance)
     # - name: Set up Google Cloud SDK
