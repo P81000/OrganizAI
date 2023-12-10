@@ -27,7 +27,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Test with Maven
-      run: ./mvnw test
+      run: mvn test
 
   build:
     needs: test
@@ -42,10 +42,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: Make Maven Wrapper executable
-      run: chmod +x ./mvnw
     - name: Build with Maven
-      run: ./mvnw clean install
+      run: mvn -B clean install
 
     # Deployment steps in GCP
     # - name: Set up Google Cloud SDK
