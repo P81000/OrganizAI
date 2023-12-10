@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Login</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+<div class="custom-login-container">
+    <div class="custom-login-title">
+        <h1>OrganizAI</h1>
+    </div>
+    <form id="loginForm" class="custom-login-form">
+        <h2>Login</h2>
+        <div class="input-container">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" class="custom-input" required>
+        </div>
+        <div class="input-container">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" class="custom-input" required>
+            <p id="senhaInvalida" class="senha-invalida">Senha inválida</p> <!-- Adicione esta linha -->
+        </div>
+        <button type="submit" class="custom-button">Login</button>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const senhaInvalidaElement = document.getElementById("senhaInvalida");
+        senhaInvalidaElement.style.display = "none"; // Começa oculto
+
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+
+            localStorage.setItem('email', email); // Armazene a resposta JSON no localStorage
+            const password = document.getElementById("password").value;
+
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Login bem-sucedido");
+                        window.location.href = "/eventos";
+                        //return response.json(); // Altere para response.json()
+                    } else {
+                        senhaInvalidaElement.style.display = "block";
+                        senhaInvalidaElement.textContent = "Senha ou email incorreto";
+                        senhaInvalidaElement.style.color = "red";
+                        senhaInvalidaElement.style.marginTop = "5px";
+                        setTimeout(() => {
+                            senhaInvalidaElement.style.display = "none";
+                        }, 3000);
+                        throw new Error("Erro de login");
+                    }
+                })
+                .then(data => {
+
+                    localStorage.setItem('email', email);
+                    const dataHoraAtual = new Date();
+                    window.location.href = `/eventos`;
+                })
+                .catch(error => {
+                    console.error("Erro na requisição:", error);
+                });
+        });
+    });
+</script>
+
+

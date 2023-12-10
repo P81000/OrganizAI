@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Usuário</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+<div class="custom-login-container">
+    <div class="custom-login-title">
+        <h1>OrganizAI</h1>
+    </div>
+    <h1>Cadastro de Usuário</h1>
+    <form id="cadastroForm" class="custom-login-form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" class="custom-input" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="custom-input" required><br>
+
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" class="custom-input" required><br>
+        <p id="emailInvalido" class="email-invalido">Email Inválido</p>
+
+        <button type="submit" class="custom-button">Cadastrar</button>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const emailInvalidoElement = document.getElementById("emailInvalido");
+        emailInvalidoElement.style.display = "none"; // Começa oculto
+
+        document.getElementById("cadastroForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const nome = document.getElementById("nome").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Enviar os dados no formato JSON para o endpoint /usuario/cadastro
+            fetch("/usuario/cadastro", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: nome,
+                    email: email,
+                    password: password
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Cadastro bem-sucedido, redirecione para a página de login
+                        window.location.href = "/login"; // Substitua com a URL da página de login
+                    } else {
+                        // Tratar a resposta do servidor para erros de cadastro
+                        console.log("Erro de cadastro:", response.statusText);
+                        emailInvalidoElement.style.display = "block";
+                        emailInvalidoElement.textContent = "Email já cadastrado"; // Mensagem de aviso
+                        emailInvalidoElement.style.color = "red"; // Cor vermelha
+                        emailInvalidoElement.style.marginTop = "5px"; // Espaçamento superior
+                        setTimeout(() => {
+                            emailInvalidoElement.style.display = "none";
+                        }, 3000); // Esconde após 3 segundos (ajuste conforme necessário)
+                        throw new Error("Erro de cadastro");
+                    }
+                })
+                .catch(error => {
+                    // Tratar erros de requisição
+                    console.error("Erro na requisição:", error);
+                });
+        });
+    });
+</script>
+</body>
+</html>

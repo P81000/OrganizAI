@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendário</title>
+    <style>
+        /* Adicione seu estilo personalizado aqui */
+        .custom-login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #98C1D9;
+            font-family: Roboto, serif;
+            cursor: default;
+            user-select: none;
+        }
+
+        .custom-login-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .custom-login-title h1 {
+            font-size: 36px;
+            color: #293241;
+        }
+
+        /* Estilo do calendário */
+        .calendar {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .calendar table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .calendar th {
+            background-color: #293241;
+            color: #E0FBFC;
+            padding: 10px;
+        }
+
+        .calendar td {
+            padding: 10px;
+            border: 1px solid #293241;
+        }
+
+        .calendar td.today {
+            background-color: #E0FBFC;
+        }
+    </style>
+</head>
+<body>
+<div class="custom-login-container">
+    <div class="custom-login-title">
+        <h1>OrganizAI</h1>
+    </div>
+    <h1>Calendário</h1>
+    <h2>Bem-vindo, <span id="email"></span>!</h2>
+    <div class="calendar">
+        <table>
+            <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Id do evento</th>
+                <th>Data de Fim</th>
+                <th>Localização</th>
+            </tr>
+            </thead>
+            <tbody id="eventosBody">
+            <tr th:each="evento : ${eventos}">
+                <td th:text="${evento.titulo}"></td>
+                <td th:text="${evento.descricao}"></td>
+                <td th:text="${evento.id}"></td>
+                <td th:text="${evento.dataFim}"></td>
+                <td th:text="${evento.localizacao}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button id="btnCadastrarEvento" class="custom-button">Cadastrar Evento</button>
+
+    <div id="cadastroEventoForm" style="display: none;">
+        <h2>Cadastro de Evento</h2>
+        <form id="eventoForm" class="custom-login-form">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" class="custom-input" required><br>
+
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" name="descricao" class="custom-input" required><br>
+
+            <label for="dataInicio">Data de Início:</label>
+            <input type="datetime-local" id="dataInicio" name="dataInicio" class="custom-input" required><br>
+
+            <label for="dataFim">Data de Fim:</label>
+            <input type="datetime-local" id="dataFim" name="dataFim" class="custom-input" required><br>
+
+            <label for="localizacao">Localização:</label>
+            <input type="text" id="localizacao" name="localizacao" class="custom-input" required><br>
+
+            <label for="idNotificacao">ID de Notificação:</label>
+            <input type="text" id="idNotificacao" name="idNotificacao" class="custom-input"><br>
+
+            <label for="idInfoClima">ID de Informação de Clima:</label>
+            <input type="text" id="idInfoClima" name="idInfoClima" class="custom-input"><br>
+
+            <label for="idInfoTrajeto">ID de Informação de Trajeto:</label>
+            <input type="text" id="idInfoTrajeto" name="idInfoTrajeto" class="custom-input"><br>
+
+            <button type="submit" class="custom-button">Salvar Evento</button>
+        </form>
+    </div>
+
+
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        function obterParametrosURL() {
+            const search = window.location.search.substring(1);
+            const params = search.split('&');
+            const paramMap = {};
+            params.forEach(param => {
+                const [key, value] = param.split('=');
+                paramMap[key] = decodeURIComponent(value);
+            });
+            return paramMap;
+        }
+
+        const cadastroEventoForm = document.getElementById("cadastroEventoForm");
+        const eventoForm = document.getElementById("eventoForm");
+
+        // Adicione um evento ao botão "Cadastrar Evento" para exibir o formulário de cadastro de eventos
+        document.getElementById("btnCadastrarEvento").addEventListener("click", function () {
+            console.log("Botão clicado");
+            cadastroEventoForm.style.display = "block";
+        });
+
+        eventoForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const titulo = document.getElementById("titulo").value;
+            const descricao = document.getElementById("descricao").value;
+            const dataInicio = document.getElementById("dataInicio").value;
+            const dataFim = document.getElementById("dataFim").value;
+            const localizacao = document.getElementById("localizacao").value;
+            const idNotificacao = document.getElementById("idNotificacao").value;
+            const idInfoClima = document.getElementById("idInfoClima").value;
+            const idInfoTrajeto = document.getElementById("idInfoTrajeto").value;
+
+            // Construa um objeto com os dados do evento
+            const evento = {
+                titulo: titulo,
+                descricao: descricao,
+                data_inicio: dataInicio,
+                data_fim: dataFim,
+                localizacao: localizacao,
+                id_notificacao: idNotificacao,
+                id_info_clima: idInfoClima,
+                id_info_trajeto: idInfoTrajeto
+            };
+            const email = localStorage.getItem("email");
+
+            // Enviar os dados no formato JSON para o endpoint adequado (substitua com o URL correto)
+            fetch(`/eventos/${email}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(evento)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Evento cadastrada com sucesso, você pode atualizar a página ou fazer outras ações aqui
+                        alert("Evento cadastrado com sucesso!");
+                        window.location.href = "/eventos"
+
+                    } else {
+                        // Tratar a resposta do servidor para erros de cadastro de evento
+                        console.error("Erro de cadastro de evento:", response.statusText);
+                        alert("Erro ao cadastrar o evento. Por favor, tente novamente.");
+                    }
+                })
+                .catch(error => {
+                    // Tratar erros de requisição
+                    console.error("Erro na requisição:", error);
+                    alert("Erro ao cadastrar o evento. Por favor, tente novamente.");
+                });
+
+            // Limpar o formulário após o cadastro
+            evento.reset();
+            cadastroEventoForm.style.display = "none"; // Ocultar o formulário após o cadastro
+        });
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #98C1D9;
+    display: flex;
+    overflow-x: hidden;
+    font-family: Roboto, sans-serif;
+    cursor: default;
+    user-select: none;
+}
+
+/* Define as cores da barra de rolagem vertical */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #293241;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #98C1D9;
+    opacity: 1%;
+}
+
+.hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
