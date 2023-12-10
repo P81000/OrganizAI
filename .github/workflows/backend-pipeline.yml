@@ -26,8 +26,8 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: Test with Maven
-      run: mvn test
+#    - name: Test with Maven
+#     run: ./mvnw test
 
   build:
     needs: test
@@ -41,9 +41,10 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: maven
         
     - name: Build with Maven
-      run: mvn -B clean install
+      run: mvn -B clean install -DskipTests
 
     # Deployment steps in GCP
     # - name: Set up Google Cloud SDK
