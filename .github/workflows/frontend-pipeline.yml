@@ -1,0 +1,67 @@
+name: Frontend Vue CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "feature/cicd" ]
+    paths:
+      - 'src/frontend-src/**'
+  pull_request:
+    branches: [ "feature/cicd" ]
+    paths:
+      - 'src/frontend-src/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: |
+        cd src/frontend-src
+        npm install
+
+    - name: Run tests
+      run: |
+        cd src/frontend-src
+        npm run test:unit
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Build
+      run: |
+        cd src/frontend-src
+        npm run build
+
+    # Deployment steps (as comments for guidance)
+    # - name: Set up Google Cloud SDK
+    #   uses: google-github-actions/setup-gcloud@master
+    #   with:
+    #     project_id: ${{ secrets.GCP_PROJECT_ID }}
+    #     service_account_key: ${{ secrets.GCP_SA_KEY }}
+    #     export_default_credentials: true
+
+    # - name: Build and Push Docker image
+    #   run: |
+    #     docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-app-frontend:$GITHUB_SHA .
+    #     docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-app-frontend:$GITHUB_SHA
+
+    # - name: Deploy to Google Cloud
+    #   run: |
+    #     # Aqui, você poderia incluir comandos para o deploy no App Engine, Cloud Run, ou outra parte do GCP.
+    #     # Por exemplo, para o Cloud Run:
+    #     gcloud run deploy my-frontend-service --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-app-frontend:$GITHUB_SHA --platform managed --region YOUR_REGION
