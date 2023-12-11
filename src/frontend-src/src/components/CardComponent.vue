@@ -1,6 +1,8 @@
 <script setup>
 import { defineProps, ref, getCurrentInstance } from "vue";
 import EventComponent from "./EventComponent.vue";
+import TaskComponent from "./TaskComponent.vue";
+import TarefaService from "@/service/TarefaService";
 
 defineProps({
   eventoCard: {
@@ -12,8 +14,39 @@ const { emit } = getCurrentInstance();
 const showEvent = ref(false);
 
 const openDetails = () => {
+    showEvent.value = true;
+};
+
+const closeDetails = () => {
   emit("close");
-  showEvent.value = !showEvent.value;
+  showEvent.value = false;
+};
+
+const showTaskForm = ref(false);
+
+const openTaskForm = () => {
+  showTaskForm.value = true;
+};
+
+const closeTaskForm = () => {
+  showTaskForm.value = false;
+};
+
+const handleTaskSuccess = () => {
+  closeTaskForm();
+};
+
+const deleteTask = async (id) => {
+   try {
+     const response = await TarefaService.deleteTarefa(id);
+     if (response) {
+       alert("Task Deleted!!");
+     } else {
+       alert("Delete not ok");
+     }
+   } catch (error) {
+     console.log("Error: ", error);
+   }
 };
 </script>
 
@@ -25,6 +58,23 @@ const openDetails = () => {
       <div class="showEvent">
         <div class="event-content">
           <EventComponent :evento="eventoCard"></EventComponent>
+          <div class="tarefas-container">
+            <h3>Tarefas:</h3>
+            <ul>
+              <li v-for="tarefa in eventoCard.tarefas">
+                {{ tarefa.titulo }}
+                 <button @click="deleteTask(tarefa.idTarefa)">Deletar Tarefa</button>
+              </li>
+            </ul>
+          </div>
+          <button @click="openTaskForm">Adicionar Tarefa</button>
+            <TaskComponent
+              v-if="showTaskForm"
+              @close="closeTaskForm"
+              @success="handleTaskSuccess"
+              :eventoId="eventoCard.id"
+            />
+          <button @click="closeDetails">Fechar Detalhes</button>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ const form = ref({
   estado: '',
 });
 
-const submitTask = async () => {
+const submitEvent = async () => {
   try {
     const response = await EventoService.setEventos(JSON.stringify(form.value));
     console.log(response);
@@ -71,9 +71,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="cadastroTarefaForm">
-    <h2>Cadastro de Tarefa</h2>
-    <form id="tarefaForm" class="custom-login-form" @submit.prevent="submitTask">
+  <div id="cadastroEventoForm">
+    <h2>Cadastro de Evento</h2>
+    <form id="eventoForm" class="custom-login-form" @submit.prevent="submitEvent">
       <label for="titulo">Título:</label>
       <input type="text" v-model="form.titulo" class="titulo" required><br>
 
@@ -95,7 +95,8 @@ onMounted(() => {
       <button type="submit" class="save">Save</button>
       <button type="button" class="custom-button" @click="close">Close</button>
     </form>
-    <button @click="deleteEvent(evento.id)">Delete</button>
+    <button @click="evento && deleteEvent(evento.id)">Delete</button>
     <div class="details">Details</div>
+
   </div>
 </template>

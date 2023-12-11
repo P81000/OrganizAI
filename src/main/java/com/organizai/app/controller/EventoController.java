@@ -104,7 +104,7 @@ public class EventoController {
         return ResponseEntity.ok(eventoAtualizadoNoBanco);
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvento(@PathVariable Integer id) {
 
         System.out.println("cheguei1");
@@ -132,25 +132,26 @@ public class EventoController {
 
         return "tarefa"; // A confirmar
     }
-    @PostMapping("/tarefas/{id_evento}")
-    public ResponseEntity<Tarefa> createTarefa(@PathVariable String id_evento, @RequestBody Tarefa novaTarefa) {
+    @PostMapping("/tarefas/criar/{idEvento}")
+    public ResponseEntity<Tarefa> createTarefa(@PathVariable Integer idEvento, @RequestBody Tarefa novaTarefa) {
 
         // Verificar se é válido
         if (novaTarefa == null) {
             return ResponseEntity.badRequest().build();
         }
-        if (id_evento == null || id_evento.equalsIgnoreCase("null")) {
+       if (idEvento == null) {
             return ResponseEntity.badRequest().build(); // Retorna um status 400 Bad Request se o id for nulo ou "null"
         }
-        Integer id = Integer.parseInt(id_evento);
-        EventoDTO evento = eventoService.findEventoById(id);
+        //Integer id = Integer.parseInt(id_evento);
+        EventoDTO evento = eventoService.findEventoById(idEvento);
         if (evento == null) {
-            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se a tarefa não existe
+            return ResponseEntity.notFound().build(); // Retorna status 404 Not Found se o evento não existe
         }
 
-        Tarefa tarefaSalva = tarefaService.saveTarefa(novaTarefa);
-        eventoService.addTarefaInEvento(id, novaTarefa);
+        //eventoService.addTarefaInEvento(idEvento, novaTarefa);
+        novaTarefa.set_evento(eventoService.convertDTOToEntity(evento));
 
+        Tarefa tarefaSalva = tarefaService.saveTarefa(novaTarefa);
         // Retornar a tarefa salva e o status 201 Created
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefaSalva);
     }
@@ -174,15 +175,15 @@ public class EventoController {
         // Tarefa atualizada e o status 200 OK
         return ResponseEntity.ok(tarefaAtualizadaNoBanco);
     }
-    @DeleteMapping("/tarefas/{id}")
-    public ResponseEntity<Void> deleteTarefa(@PathVariable Integer id) {
+    @DeleteMapping("/tarefas/delete/{idTarefa}")
+    public ResponseEntity<Void> deleteTarefa(@PathVariable Integer idTarefa) {
 
-        TarefaDTO tarefa = tarefaService.findTarefaById(id);
+        TarefaDTO tarefa = tarefaService.findTarefaById(idTarefa);
         if (tarefa == null) {
             return ResponseEntity.notFound().build(); // Retorna status 404 Not Found
         }
 
-        tarefaService.deleteTarefa(id);
+        tarefaService.deleteTarefa(idTarefa);
 
         // Retorne o status 204 No Content (sem conteúdo) para indicar a exclusão bem-sucedida
         return ResponseEntity.noContent().build();

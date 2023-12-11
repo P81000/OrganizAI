@@ -76,9 +76,10 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public void addTarefaInEvento(Integer eventoId, Tarefa tarefa){
-        Evento evento = eventoRepository.findById(eventoId).get();
+    public void addTarefaInEvento(Integer idEvento, Tarefa tarefa){
+        Evento evento = eventoRepository.findById(idEvento).get();
         evento.addTarefa(tarefa);
+        eventoRepository.save(evento);
     }
 
     @Override
@@ -88,5 +89,23 @@ public class EventoServiceImpl implements EventoService {
             int idEvento = evento.getId_evento();
             eventoRepository.deleteById(idEvento);
         }
+    }
+
+    @Override
+    public Evento convertDTOToEntity(EventoDTO eventoDTO) {
+        if (eventoDTO == null) {
+            return null;
+        }
+
+        Evento evento = eventoRepository.findById(eventoDTO.getId()).get();
+        evento.setId_evento(eventoDTO.getId());
+        evento.setTitulo(eventoDTO.getTitulo());
+        evento.setDescricao(eventoDTO.getDescricao());
+        evento.setData_inicio(eventoDTO.getDataInicio());
+        evento.setData_fim(eventoDTO.getDataFim());
+        evento.setCidade(eventoDTO.getCidade());
+        evento.setEstado(eventoDTO.getEstado());
+
+        return evento;
     }
 }
