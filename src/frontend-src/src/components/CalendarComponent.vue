@@ -1,15 +1,17 @@
 <!-- TODO: refatorar cartao de evento e evento -->
 <script setup>
-import {getCurrentInstance, onMounted, ref} from "vue";
+import { getCurrentInstance, onMounted, ref } from "vue";
 import Card from "./CardComponent.vue";
 import Event from "./EventComponent.vue";
 import EventoService from '../service/EventoService.js';
 
+const { emit } = getCurrentInstance();
 const dataAtual = ref(new Date());
 const dataAux = ref(new Date());
 const dias = ref([]);
 const eventos = ref([]);
 const showEvent = ref(false);
+const selectedDate = ref(null);
 
 const anteriorDia = () => {
   const novaData = new Date(dataAux.value);
@@ -61,8 +63,10 @@ const isSameDate = (dia, evento) => {
   );
 };
 
-const showModal = () => {
+const showModal = (dia) => {
   showEvent.value = !showEvent.value;
+  console.log('value: ' + showEvent.value);
+  selectedDate.value = dia;
 };
 
 const closeModal = () => {
@@ -100,8 +104,8 @@ onMounted(async () => {
       <div class="arrow-lines" title="Press or use your keyboard arrows">
         <span @click="anteriorDia" class="arrow left"></span>
         <h3
-          class="selectedDay"
-          :class="{
+            class="selectedDay"
+            :class="{
             currentDay: isCurrentDay({ 'dia': dataAux.getDate(),
                                            'mes': dataAux.getMonth() + 1,
                                            'ano': dataAux.getFullYear()
@@ -115,38 +119,40 @@ onMounted(async () => {
     </header>
     <div class="agenda">
       <div
-        class="dayContainer"
-        v-for="dia in dias"
-        :key="dia"
-        :class="{ currentContainer: isCurrentDay(dia) }"
+          class="dayContainer"
+          v-for="dia in dias"
+          :key="dia"
+          :class="{ currentContainer: isCurrentDay(dia) }"
       >
         <h3
-          class="day"
-          :class="{
+            class="day"
+            :class="{
             text: isCurrentDay(dia),
           }"
         >
           {{ dia.formatData }}
           <img
-            class="addEventIcon"
-            src="../assets/add.png"
-            alt="Add-Event-Icon"
-            title="Add a new event"
-            @click="showModal()"
+              class="addEventIcon"
+              src="../assets/add.png"
+              alt="Add-Event-Icon"
+              title="Add a new event"
+              @click="showModal(dia)"
           />
         </h3>
         <div v-for="evento in eventos" :key="evento.id">
           <Card
-            v-if="isSameDate(dia, evento.data_inicio)"
-            :eventoCard="evento"
+              v-if="isSameDate(dia, evento.data_inicio)"
+              :eventoCard="evento"
           />
         </div>
       </div>
       <Event
-        class="addEvent"
-        v-if="showEvent"
-        @close="closeModal()"
-        :eventCard="eventos[eventos.length - 1]">
+          class="addEvent"
+          v-if="showEvent"
+          @close="closeModal()"
+          :eventCard="eventos[eventos.length - 1]"
+          :selectedDate='selectedDate'
+      >
       </Event>
     </div>
   </div>
@@ -283,12 +289,13 @@ onMounted(async () => {
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  padding: 1%;
   justify-content: flex-start;
-  width: 40vw;
+  width: 30vw;
   height: 80vh;
-  background-color: #f0f0f0;
   z-index: 1000;
+  overflow: hidden;
 }
 ::-webkit-scrollbar {
   width: 3px;

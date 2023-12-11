@@ -57,24 +57,7 @@ const deleteTask = async (id) => {
     <div v-if="showEvent" class="detalhes">
       <div class="showEvent">
         <div class="event-content">
-          <EventComponent :evento="eventoCard"></EventComponent>
-          <div class="tarefas-container">
-            <h3>Tarefas:</h3>
-            <ul>
-              <li v-for="tarefa in eventoCard.tarefas">
-                {{ tarefa.titulo }}
-                 <button @click="deleteTask(tarefa.idTarefa)">Deletar Tarefa</button>
-              </li>
-            </ul>
-          </div>
-          <button @click="openTaskForm">Adicionar Tarefa</button>
-            <TaskComponent
-              v-if="showTaskForm"
-              @close="closeTaskForm"
-              @success="handleTaskSuccess"
-              :eventoId="eventoCard.id"
-            />
-          <button @click="closeDetails">Fechar Detalhes</button>
+          <EventComponent class='addEvent' :evento="eventoCard"></EventComponent>
         </div>
       </div>
     </div>
@@ -106,23 +89,20 @@ const deleteTask = async (id) => {
   font-size: 150%;
   border-bottom: 1px solid #ee6c4d;
 }
-.showEvent {
+.addEvent {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  padding: 1%;
   justify-content: flex-start;
-  width: 40vw;
+  width: 30vw;
   height: 80vh;
-  background-color: #f0f0f0;
   z-index: 1000;
+  overflow: hidden;
 }
 
-.event-content {
-  width: 100%;
-  height: 100%;
-}
 </style>
